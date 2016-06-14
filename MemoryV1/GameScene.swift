@@ -9,36 +9,66 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    let cards = Game(numCards: 16).cardsArray
+    
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        
-        self.addChild(myLabel)
+        setFirstRows(cards)
+        let shuffledCards = cards.shuffle()
+        setSecondRows(shuffledCards)
+    }
+    
+    func setFirstRows(cards: [Card]) {
+        var positions: CGPoint = CGPoint(x: 135, y: 1680)
+        var name = 1
+        for num in 0...cards.count - 1 {
+            if num == 4 {
+                positions.x = 135
+                positions.y = 1200
+            }
+            let card = cards[num]
+            let node = SKSpriteNode(texture: card.flipTexture)
+            self.addChild(node)
+            node.size = CGSize(width: 125.0, height: 200.0)
+            node.position = positions
+            node.name = "\(name)"
+            name += 1
+            positions.x += 270
+        }
+    }
+    
+    func setSecondRows(cards: [Card]) {
+        var positions: CGPoint = CGPoint(x: 135, y: 720)
+        var name = cards.count / 2 + 1
+        for num in 0...cards.count - 1 {
+            if num == 4 {
+                positions.x = 135
+                positions.y = 240
+            }
+            let card = cards[num]
+            let node = SKSpriteNode(texture: card.flipTexture)
+            self.addChild(node)
+            node.size = CGSize(width: 125.0, height: 200.0)
+            node.position = positions
+            node.name = "\(name)"
+            name += 1
+            positions.x += 270
+            
+        }
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
     }
-   
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+    }
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
