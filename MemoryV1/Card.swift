@@ -14,16 +14,11 @@ enum Deck {
     static func getCardTexture(suit: Suit, value: Value) -> String {
         var imageString: String {
             switch value {
-            case .two: return "2_of_" + suit.rawValue
-            case .three: return "3_of_" + suit.rawValue
-            case .four: return "4_of_" + suit.rawValue
-            case .five: return "5_of_" + suit.rawValue
-            case .six: return "6_of_" + suit.rawValue
-            case .seven: return "7_of_" + suit.rawValue
-            case .eight: return "8_of_" + suit.rawValue
-            case .nine: return "9_of_" + suit.rawValue
-            case .ten: return "10_of_" + suit.rawValue
-            default: return value.rawValue + "_of_" + suit.rawValue
+            case .jack: return "jack_of_" + suit.rawValue
+            case .queen: return "queen_of_" + suit.rawValue
+            case .king: return "king_of_" + suit.rawValue
+            case .ace: return "ace_of_" + suit.rawValue
+            default: return "\(value.rawValue)" + "_of_" + suit.rawValue
             }
         }
         return imageString
@@ -42,8 +37,8 @@ enum Deck {
         }
     }
     
-    enum Value: String {
-        case two
+    enum Value: Int {
+        case two = 2
         case three
         case four
         case five
@@ -67,6 +62,7 @@ enum Deck {
 
 class Card: SKSpriteNode {
     
+    var faceUp = false
     final let coverTexture = SKTexture(imageNamed: "DukeLogo")
     let suit: Deck.Suit
     let value: Deck.Value
@@ -75,20 +71,47 @@ class Card: SKSpriteNode {
     convenience init() {
         let suit = Deck.Suit.getRandomSuit()
         let value = Deck.Value.getRandomValue()
-        let flipString = Deck.getCardTexture(suit, value: value)
-        self.init(cardSuit: suit, cardValue: value, flipString: flipString)
+        let flipString = SKTexture(imageNamed: Deck.getCardTexture(suit, value: value))
+        self.init(cardSuit: suit, cardValue: value, flipTexture: flipString)
     }
     
-    init(cardSuit: Deck.Suit, cardValue: Deck.Value, flipString: String) {
+    init(cardSuit: Deck.Suit, cardValue: Deck.Value, flipTexture: SKTexture) {
         self.suit = cardSuit
         self.value = cardValue
-        self.flipTexture = SKTexture(imageNamed: flipString)
+        self.flipTexture = flipTexture
         let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         super.init(texture: coverTexture, color: color, size: coverTexture.size())
+        userInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for _ in touches {
+            let liftUp = SKAction.scaleTo(1.5, duration: 0.2)
+            runAction(liftUp)
+            if faceUp {
+                self.texture = self.coverTexture
+                faceUp = false
+            } else {
+                self.texture = self.flipTexture
+                faceUp = true
+            }
+        }
+    }
+    
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for _ in touches {
+            let putBack = SKAction.scaleTo(1.0, duration: 0.2)
+            runAction(putBack)
+        }
     }
 }
 
@@ -107,6 +130,10 @@ class Game {
                 valueSet.insert(card.value)
                 cardsArray.append(card)
             }
+        }
+        for card in cardsArray {
+            let card1 = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
+            cardsArray.append(card1)
         }
     }
 }

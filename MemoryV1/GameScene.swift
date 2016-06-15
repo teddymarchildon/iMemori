@@ -10,66 +10,67 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    let cards = Game(numCards: 16).cardsArray
-    
     override func didMoveToView(view: SKView) {
-        setFirstRows(cards)
-        let shuffledCards = cards.shuffle()
-        setSecondRows(shuffledCards)
+        let cards = Game(numCards: 16).cardsArray.shuffle()
+        setFirstRow(cards)
+        setSecondRow(cards)
+        setThirdRow(cards)
+        setFourthRow(cards)
     }
     
-    func setFirstRows(cards: [Card]) {
+    func setFirstRow(cards: [Card]) {
         var positions: CGPoint = CGPoint(x: 135, y: 1680)
-        var name = 1
-        for num in 0...cards.count - 1 {
-            if num == 4 {
-                positions.x = 135
-                positions.y = 1200
-            }
-            let card = cards[num]
-            let node = SKSpriteNode(texture: card.flipTexture)
-            self.addChild(node)
-            node.size = CGSize(width: 125.0, height: 200.0)
-            node.position = positions
-            node.name = "\(name)"
+        var name = 0
+        for num in 0...3 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 125.0, height: 200.0)
+            card.position = positions
+            card.name = "\(name)"
             name += 1
             positions.x += 270
+            self.addChild(card)
+        }
+    }
+
+    func setSecondRow(cards: [Card]) {
+        var positions: CGPoint = CGPoint(x: 135, y: 1200)
+        var name = 4
+        for num in 4...7 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 125.0, height: 200.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 270
+            self.addChild(card)
         }
     }
     
-    func setSecondRows(cards: [Card]) {
+    func setThirdRow(cards: [Card]) {
         var positions: CGPoint = CGPoint(x: 135, y: 720)
-        var name = cards.count / 2 + 1
-        for num in 0...cards.count - 1 {
-            if num == 4 {
-                positions.x = 135
-                positions.y = 240
-            }
-            let card = cards[num]
-            let node = SKSpriteNode(texture: card.flipTexture)
-            self.addChild(node)
-            node.size = CGSize(width: 125.0, height: 200.0)
-            node.position = positions
-            node.name = "\(name)"
+        var name = 8
+        for num in 8...11 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 125.0, height: 200.0)
+            card.position = positions
+            card.name = "\(name)"
             name += 1
             positions.x += 270
-            
+            self.addChild(card)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        
-    }
-    
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+    func setFourthRow(cards: [Card]) {
+        var positions: CGPoint = CGPoint(x: 135, y: 240)
+        var name = 12
+        for num in 12...15 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 125.0, height: 200.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 270
+            self.addChild(card)
+        }
     }
 }
