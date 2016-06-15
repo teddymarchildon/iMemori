@@ -81,36 +81,39 @@ class Card: SKSpriteNode {
         self.flipTexture = flipTexture
         let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         super.init(texture: coverTexture, color: color, size: coverTexture.size())
-        userInteractionEnabled = true
+//        userInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        for _ in touches {
-            let liftUp = SKAction.scaleTo(1.5, duration: 0.2)
-            runAction(liftUp)
-            if faceUp {
-                self.texture = self.coverTexture
-                faceUp = false
-            } else {
-                self.texture = self.flipTexture
-                faceUp = true
-            }
-        }
-    }
-    
-    
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        flip()
+//    }
+//    
+//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        
+//    }
+//    
+    func flip() {
+        let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.2)
+        let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.2)
         
-    }
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        for _ in touches {
-            let putBack = SKAction.scaleTo(1.0, duration: 0.2)
-            runAction(putBack)
+        setScale(1.0)
+        
+        if faceUp {
+            runAction(firstHalfFlip) {
+                self.texture = self.coverTexture
+                self.faceUp = false
+                self.runAction(secondHalfFlip)
+            }
+        } else {
+            runAction(firstHalfFlip) {
+                self.texture = self.flipTexture
+                self.faceUp = true
+                self.runAction(secondHalfFlip)
+            }
         }
     }
 }
@@ -118,13 +121,13 @@ class Card: SKSpriteNode {
 class Game {
     
     var cardsArray: [Card] = []
-    var suitSet = Set<Deck.Suit>()
     var valueSet = Set<Deck.Value>()
+    var firstChoice: Card? = nil
+    var secondChoice: Card? = nil
     
-    init(numCards: Int) {
-        while cardsArray.count < numCards / 2 {
+    init() {
+        while cardsArray.count < 16 / 2 {
             let card = Card()
-            if suitSet.count == 4 { suitSet.removeAll() }
             if valueSet.count == 13 { valueSet.removeAll() }
             if !valueSet.contains(card.value) {
                 valueSet.insert(card.value)

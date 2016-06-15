@@ -10,8 +10,12 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    let game = Game()
+    
     override func didMoveToView(view: SKView) {
-        let cards = Game(numCards: 16).cardsArray.shuffle()
+        let cards = game.cardsArray.shuffle()
+        game.firstChoice = nil
+        game.secondChoice = nil
         setFirstRow(cards)
         setSecondRow(cards)
         setThirdRow(cards)
@@ -31,7 +35,7 @@ class GameScene: SKScene {
             self.addChild(card)
         }
     }
-
+    
     func setSecondRow(cards: [Card]) {
         var positions: CGPoint = CGPoint(x: 135, y: 1200)
         var name = 4
@@ -73,4 +77,58 @@ class GameScene: SKScene {
             self.addChild(card)
         }
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            let node = nodeAtPoint(location)
+            if node != self {
+                if game.firstChoice == nil {
+                    let card = node as! Card
+                    card.flip()
+                    card.faceUp = true
+                    game.firstChoice = card
+                    print("first choice is \(game.firstChoice!.value)")
+                }
+                else if game.secondChoice == nil {
+                    let card = node as! Card
+                    card.flip()
+                    card.faceUp = true
+                    game.secondChoice = card
+                    print("second choice is \(game.secondChoice!.suit)")
+                }
+                let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
+                dispatch_after(time, dispatch_get_main_queue()) {
+                    self.testEqual()
+                }
+            }
+        }
+    }
+    
+    func testEqual() {
+        if let first = game.firstChoice, second = game.secondChoice {
+            print("first is \(first.value)-\(first.suit) and second is \(second.value)-\(second.suit)")
+            if first.value == second.value && first.suit == second.suit {
+                print("match")
+                first.hidden = true
+                second.hidden = true
+                setNils()
+            } else {
+                print("no match")
+                flipBoth(first, card2: second)
+                setNils()
+            }
+        }
+    }
+    
+    func setNils() {
+        game.firstChoice = nil
+        game.secondChoice = nil
+    }
+    
+    func flipBoth(card1: Card, card2: Card) {
+        card1.flip()
+        card2.flip()
+    }
+    
 }
