@@ -62,6 +62,7 @@ enum Deck {
 
 class Card: SKSpriteNode {
     
+    var selected: Bool = false
     var faceUp = false
     final let coverTexture = SKTexture(imageNamed: "DukeLogo")
     let suit: Deck.Suit
@@ -81,21 +82,12 @@ class Card: SKSpriteNode {
         self.flipTexture = flipTexture
         let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         super.init(texture: coverTexture, color: color, size: coverTexture.size())
-//        userInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        flip()
-//    }
-//    
-//    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        
-//    }
-//    
     func flip() {
         let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.2)
         let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.2)
@@ -159,23 +151,3 @@ extension MutableCollectionType where Index == Int {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

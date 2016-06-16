@@ -81,40 +81,45 @@ class GameScene: SKScene {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
             if node != self {
+                let card = node as! Card
                 if game.firstChoice == nil {
-                    let card = node as! Card
+                    card.selected = true
                     card.flip()
                     card.faceUp = true
                     game.firstChoice = card
                 }
-                else if game.secondChoice == nil {
-                    let card = node as! Card
+                else if game.secondChoice == nil && !card.selected {
                     card.flip()
                     card.faceUp = true
                     game.secondChoice = card
                 }
-                let time = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 2 * Int64(NSEC_PER_SEC))
-                dispatch_after(time, dispatch_get_main_queue()) {
-                    self.testEqual()
-                }
+//                let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+//                let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+//                    self.testMatch()
+//                })
+                let delay = 1.5 // time in seconds
+                NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
             }
         }
     }
     
-    func testEqual() {
+    func testMatch() {
         if let first = game.firstChoice, second = game.secondChoice {
             if first.value == second.value && first.suit == second.suit {
                 first.hidden = true
                 second.hidden = true
-                setNils()
+                reset()
             } else {
                 flipBoth(first, card2: second)
-                setNils()
+                reset()
             }
         }
     }
     
-    func setNils() {
+    func reset() {
+        game.firstChoice?.selected = false
+        game.secondChoice?.selected = false
         game.firstChoice = nil
         game.secondChoice = nil
     }
