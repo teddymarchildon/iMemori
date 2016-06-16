@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B1A3932C1D12F07D00A66E2E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A3932B1D12F07D00A66E2E /* Game.swift */; };
+		B1A3932E1D130ED400A66E2E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A3932D1D130ED400A66E2E /* Timer.swift */; };
 		B1F2C4741D1072FB00D1F971 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2C4731D1072FB00D1F971 /* AppDelegate.swift */; };
 		B1F2C4761D1072FB00D1F971 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B1F2C4751D1072FB00D1F971 /* GameScene.sks */; };
 		B1F2C4781D1072FB00D1F971 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2C4771D1072FB00D1F971 /* GameScene.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		B1A3932B1D12F07D00A66E2E /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		B1A3932D1D130ED400A66E2E /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		B1F2C4701D1072FB00D1F971 /* MemoryV1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryV1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F2C4731D1072FB00D1F971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1F2C4751D1072FB00D1F971 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				B1F2C4731D1072FB00D1F971 /* AppDelegate.swift */,
 				B1F2C4751D1072FB00D1F971 /* GameScene.sks */,
 				B1F2C4771D1072FB00D1F971 /* GameScene.swift */,
+				B1A3932D1D130ED400A66E2E /* Timer.swift */,
 				B1F2C4891D10745000D1F971 /* Card.swift */,
 				B1A3932B1D12F07D00A66E2E /* Game.swift */,
 				B1F2C4791D1072FB00D1F971 /* GameViewController.swift */,
@@ -152,6 +155,7 @@
 				B1F2C4781D1072FB00D1F971 /* GameScene.swift in Sources */,
 				B1A3932C1D12F07D00A66E2E /* Game.swift in Sources */,
 				B1F2C47A1D1072FB00D1F971 /* GameViewController.swift in Sources */,
+				B1A3932E1D130ED400A66E2E /* Timer.swift in Sources */,
 				B1F2C4741D1072FB00D1F971 /* AppDelegate.swift in Sources */,
 				B1F2C48A1D10745000D1F971 /* Card.swift in Sources */,
 			);

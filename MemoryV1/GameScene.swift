@@ -11,16 +11,20 @@ import SpriteKit
 class GameScene: SKScene {
     
     let game = Game()
+    var cards: [Card] = []
     var textLabel: SKLabelNode!
     var scoreLabel: SKLabelNode!
     var finishedLabel: SKLabelNode!
-    var cards: [Card] = []
+    var timerLabel: SKLabelNode!
+    var timer = Timer()
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode{
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
+            self.timerLabel = timerLabel
+            timerLabel.text = timer.timerString
             finishedLabel.hidden = true
         }
         self.cards = game.cardsArray.shuffle()
@@ -87,6 +91,10 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if timer.off {
+            timer.start()
+            timer.off = false
+        }
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
@@ -103,13 +111,14 @@ class GameScene: SKScene {
                     card.faceUp = true
                     game.secondChoice = card
                 }
+                if game.secondChoice != nil && game.firstChoice != nil {
 //                let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
 //                let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
 //                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
 //                    self.testMatch()
 //                })
-                let delay = 1.5
-                NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                }
             }
         }
     }
@@ -135,10 +144,15 @@ class GameScene: SKScene {
         scoreLabel.text = "\(game.score)"
     }
     
+    override func update(currentTime: NSTimeInterval) {
+        timerLabel.text = timer.timerString
+    }
+    
     func reset() {
         if self.children.count < 5 {
             game.finished = true
             finishedLabel.hidden = false
+            timer.stop()
         }
         game.firstChoice?.selected = false
         game.secondChoice?.selected = false
