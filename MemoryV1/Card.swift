@@ -108,28 +108,9 @@ class Card: SKSpriteNode {
             }
         }
     }
-}
-
-class Game {
     
-    var cardsArray: [Card] = []
-    var valueSet = Set<Deck.Value>()
-    var firstChoice: Card? = nil
-    var secondChoice: Card? = nil
-    
-    init() {
-        while cardsArray.count < 16 / 2 {
-            let card = Card()
-            if valueSet.count == 13 { valueSet.removeAll() }
-            if !valueSet.contains(card.value) {
-                valueSet.insert(card.value)
-                cardsArray.append(card)
-            }
-        }
-        for card in cardsArray {
-            let card1 = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
-            cardsArray.append(card1)
-        }
+    func isMatch(card: Card) -> Bool {
+        return self.value == card.value && self.suit == card.suit
     }
 }
 
