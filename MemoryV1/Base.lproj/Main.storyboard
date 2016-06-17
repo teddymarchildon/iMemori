@@ -16,45 +16,8 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GR2-2l-Evo">
-                                <rect key="frame" x="247" y="344" width="107" height="39"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="One Player"/>
-                                <connections>
-                                    <action selector="clickedOnePlayer:" destination="BV1-FR-VrT" eventType="touchUpInside" id="vEe-qW-txb"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcT-BY-3fO">
-                                <rect key="frame" x="241" y="405" width="118" height="39"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="Two Players"/>
-                                <connections>
-                                    <action selector="clickedTwoPlayer:" destination="BV1-FR-VrT" eventType="touchUpInside" id="J7d-8F-lSI"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Memory" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ptY-Wd-91l">
-                                <rect key="frame" x="249" y="83" width="102" height="32"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
-                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        <constraints>
-                            <constraint firstItem="qHh-Mt-9TT" firstAttribute="top" secondItem="vcT-BY-3fO" secondAttribute="bottom" constant="156" id="Dr3-12-TRv"/>
-                            <constraint firstItem="vcT-BY-3fO" firstAttribute="top" secondItem="GR2-2l-Evo" secondAttribute="bottom" constant="22" id="Eb1-A9-1a7"/>
-                            <constraint firstItem="GR2-2l-Evo" firstAttribute="centerX" secondItem="vcT-BY-3fO" secondAttribute="centerX" id="ZfY-K3-ish"/>
-                            <constraint firstItem="ptY-Wd-91l" firstAttribute="centerX" secondItem="GR2-2l-Evo" secondAttribute="centerX" id="k6G-US-xcy"/>
-                            <constraint firstItem="vcT-BY-3fO" firstAttribute="centerX" secondItem="3se-qz-xqx" secondAttribute="centerX" id="rGq-Pz-VIa"/>
-                            <constraint firstItem="ptY-Wd-91l" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" constant="63" id="vKx-P6-vAv"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="onePlayerLabel" destination="GR2-2l-Evo" id="Mnd-Om-D54"/>
-                        <outlet property="titleLabel" destination="ptY-Wd-91l" id="x5T-GG-KFZ"/>
-                        <outlet property="twoPlayerLabel" destination="vcT-BY-3fO" id="PR8-KA-qaf"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>

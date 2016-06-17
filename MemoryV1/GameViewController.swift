@@ -10,52 +10,17 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var onePlayerLabel: UIButton!
-    @IBOutlet weak var twoPlayerLabel: UIButton!
-    var cards: [SKSpriteNode] = []
-    var game: Game? = nil
-    var onePlayerScene: AnyObject? = nil
-    var twoPlayerScene: AnyObject? = nil
     
     override func viewDidLoad() {
-        (self.cards, self.game) = LoadData.setUp()
         super.viewDidLoad()
-        if let scene1 = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
-            self.onePlayerScene = scene1 as SKScene
-            scene1.scaleMode = .AspectFill
-            scene1.cards = cards
-            scene1.game = game!
-        }
-        
-        if let scene2 = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
-            self.twoPlayerScene = scene2 as SKScene
-            scene2.scaleMode = .AspectFill
-            scene2.cards = cards
-            scene2.game = game!
-            scene2.scaleMode = .AspectFill
+        if let scene = MainMenu(fileNamed:"MainMenu") {
+            let skView = self.view as! SKView
+            skView.ignoresSiblingOrder = true
+            scene.scaleMode = .AspectFit
+            skView.presentScene(scene)
         }
     }
-    
-    @IBAction func clickedOnePlayer(sender: AnyObject) {
-        let skView = self.view as! SKView
-        skView.ignoresSiblingOrder = true
-        titleLabel.hidden = true
-        onePlayerLabel.hidden = true
-        twoPlayerLabel.hidden = true
-        skView.presentScene(onePlayerScene as? SKScene)
-    }
-    
-    @IBAction func clickedTwoPlayer(sender: AnyObject) {
-        titleLabel.hidden = true
-        onePlayerLabel.hidden = true
-        twoPlayerLabel.hidden = true
-        let skView = self.view as! SKView
-        skView.ignoresSiblingOrder = true
-        skView.presentScene(twoPlayerScene as? SKScene)
-    }
-    
+
     override func shouldAutorotate() -> Bool {
         return true
     }

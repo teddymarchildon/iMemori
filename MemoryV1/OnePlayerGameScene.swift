@@ -16,14 +16,16 @@ class OnePlayerGameScene: SKScene {
     var scoreLabel: SKLabelNode!
     var finishedLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
+    var mainMenuLabel: SKLabelNode!
     var timer = Timer()
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode {
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
             self.timerLabel = timerLabel
+            self.mainMenuLabel = mainMenuLabel
             timerLabel.text = timer.timerString
             finishedLabel.hidden = true
         }
@@ -40,8 +42,7 @@ class OnePlayerGameScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
-            if node != self {
-                let card = node as! Card
+            if let card = node as? Card {
                 if game.firstChoice == nil {
                     card.selected = true
                     card.flip()
@@ -54,12 +55,16 @@ class OnePlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if game.secondChoice != nil && game.firstChoice != nil {
-                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+                    let delay = 1.5 * Double(NSEC_PER_SEC)
                     let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         self.testMatch()
                     })
-                    //                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                }
+            } else if node == mainMenuLabel {
+                if let scene = MainMenu(fileNamed: "MainMenu") {
+                    scene.scaleMode = .AspectFit
+                    self.view?.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.5))
                 }
             }
         }
@@ -91,7 +96,7 @@ class OnePlayerGameScene: SKScene {
     }
     
     func reset() {
-        if self.children.count < 5 {
+        if self.children.count < 7 {
             game.finished = true
             finishedLabel.hidden = false
             timer.stop()
