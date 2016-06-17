@@ -113,12 +113,12 @@ class TwoPlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if game.secondChoice != nil && game.firstChoice != nil {
-                    //                let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
-                    //                let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    //                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                    //                    self.testMatch()
-                    //                })
-                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                        self.testMatch()
+                    })
+                    //                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             }
         }
@@ -173,7 +173,7 @@ class TwoPlayerGameScene: SKScene {
             else { winnerLabel.text = "Tie!" }
             winnerLabel.hidden = false
         }
-
+        
         game.firstChoice?.selected = false
         game.secondChoice?.selected = false
         game.firstChoice = nil

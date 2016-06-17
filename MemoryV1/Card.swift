@@ -81,7 +81,7 @@ class Card: SKSpriteNode {
         self.value = cardValue
         self.flipTexture = flipTexture
         let color = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        super.init(texture: flipTexture, color: color, size: coverTexture.size())
+        super.init(texture: coverTexture, color: color, size: coverTexture.size())
     }
     
     required init?(coder aDecoder: NSCoder) {
