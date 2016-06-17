@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class OnePlayerGameScene: SKScene {
     
     let game = Game()
     var cards: [Card] = []

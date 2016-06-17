@@ -11,10 +11,19 @@ import SpriteKit
 
 class GameViewController: UIViewController {
 
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var onePlayerLabel: UIButton!
+    @IBOutlet weak var twoPlayerLabel: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
-        if let scene = GameScene(fileNamed:"GameScene") {
+    @IBAction func clickedTwoPlayer(sender: AnyObject) {
+        titleLabel.hidden = true
+        onePlayerLabel.hidden = true
+        twoPlayerLabel.hidden = true
+        if let scene = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
             // Configure the view.
             let skView = self.view as! SKView
             skView.showsFPS = true
@@ -29,7 +38,26 @@ class GameViewController: UIViewController {
             skView.presentScene(scene)
         }
     }
-
+    
+    @IBAction func clickedOnePlayer(sender: AnyObject) {
+        titleLabel.hidden = true
+        onePlayerLabel.hidden = true
+        twoPlayerLabel.hidden = true
+        if let scene = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
+            // Configure the view.
+            let skView = self.view as! SKView
+            skView.showsFPS = true
+            skView.showsNodeCount = true
+            
+            /* Sprite Kit applies additional optimizations to improve rendering performance */
+            skView.ignoresSiblingOrder = true
+            
+            /* Set the scale mode to scale to fit the window */
+            scene.scaleMode = .AspectFill
+            
+            skView.presentScene(scene)
+        }
+    }
     override func shouldAutorotate() -> Bool {
         return true
     }

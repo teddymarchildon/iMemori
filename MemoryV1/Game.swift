@@ -12,6 +12,10 @@ import SpriteKit
 
 class Game {
     
+    var playerOneTurn: Bool? = nil
+    var playerTwoTurn: Bool? = nil
+    var playerOneScore: Int? = nil
+    var playerTwoScore: Int? = nil
     var score = 0
     var finished: Bool = false
     var cardsArray: [Card] = []
