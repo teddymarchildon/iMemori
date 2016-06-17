@@ -118,7 +118,7 @@ class TwoPlayerGameScene: SKScene {
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         self.testMatch()
                     })
-                    //                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                    //  NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             }
         }

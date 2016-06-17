@@ -26,16 +26,15 @@ class GameViewController: UIViewController {
         if let scene = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
+//            skView.showsFPS = true
+//            skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
-            
-            skView.presentScene(scene)
+            skView.presentScene(scene, transition: SKTransition.crossFadeWithDuration(2.0))
         }
     }
     
@@ -46,16 +45,15 @@ class GameViewController: UIViewController {
         if let scene = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = true
-            skView.showsNodeCount = true
+//            skView.showsFPS = true
+//            skView.showsNodeCount = true
             
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .AspectFill
-            
-            skView.presentScene(scene)
+            skView.presentScene(scene, transition: SKTransition.crossFadeWithDuration(2.0))
         }
     }
     override func shouldAutorotate() -> Bool {
