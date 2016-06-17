@@ -10,8 +10,8 @@ import SpriteKit
 
 class TwoPlayerGameScene: SKScene {
     
-    let game = Game()
-    var cards: [Card] = []
+    var game = Game()
+    var cards: [SKSpriteNode] = []
     var playerOneLabel: SKLabelNode!
     var playerTwoLabel: SKLabelNode!
     var playerOneScoreLabel: SKLabelNode!
@@ -32,65 +32,7 @@ class TwoPlayerGameScene: SKScene {
             self.winnerLabel = winnerLabel
             self.winnerLabel.hidden = true
         }
-        self.cards = game.cardsArray.shuffle()
-        setFirstRow(cards)
-        setSecondRow(cards)
-        setThirdRow(cards)
-        setFourthRow(cards)
-    }
-    
-    func setFirstRow(cards: [Card]) {
-        var positions: CGPoint = CGPoint(x: 155, y: 1250)
-        var name = 0
-        for num in 0...3 {
-            let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 180.0, height: 240.0)
-            card.position = positions
-            card.name = "\(name)"
-            name += 1
-            positions.x += 250
-            self.addChild(card)
-        }
-    }
-    
-    func setSecondRow(cards: [Card]) {
-        var positions: CGPoint = CGPoint(x: 155, y: 920)
-        var name = 4
-        for num in 4...7 {
-            let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 180.0, height: 240.0)
-            card.position = positions
-            card.name = "\(name)"
-            name += 1
-            positions.x += 250
-            self.addChild(card)
-        }
-    }
-    
-    func setThirdRow(cards: [Card]) {
-        var positions: CGPoint = CGPoint(x: 155, y: 600)
-        var name = 8
-        for num in 8...11 {
-            let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 180.0, height: 240.0)
-            card.position = positions
-            card.name = "\(name)"
-            name += 1
-            positions.x += 250
-            self.addChild(card)
-        }
-    }
-    
-    func setFourthRow(cards: [Card]) {
-        var positions: CGPoint = CGPoint(x: 155, y: 240)
-        var name = 12
-        for num in 12...15 {
-            let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 180.0, height: 240.0)
-            card.position = positions
-            card.name = "\(name)"
-            name += 1
-            positions.x += 250
+        for card in cards {
             self.addChild(card)
         }
     }
@@ -168,9 +110,17 @@ class TwoPlayerGameScene: SKScene {
     func reset() {
         if self.children.count < 7 {
             game.finished = true
-            if game.playerOneScore > game.playerTwoScore { winnerLabel.text = "Player 1 won!" }
-            else if game.playerTwoScore > game.playerOneScore { winnerLabel.text = "Player 2 won!" }
-            else { winnerLabel.text = "Tie!" }
+            if game.playerOneScore > game.playerTwoScore {
+                winnerLabel.text = "Player 1 won!"
+                playerOneLabel.color = .redColor()
+            } else if game.playerTwoScore > game.playerOneScore {
+                winnerLabel.text = "Player 2 won!"
+                playerTwoLabel.color = .redColor()
+            } else {
+                winnerLabel.text = "Tie!"
+                playerOneLabel.color = .whiteColor()
+                playerTwoLabel.color = .whiteColor()
+            }
             winnerLabel.hidden = false
         }
         

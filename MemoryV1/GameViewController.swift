@@ -14,48 +14,48 @@ class GameViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var onePlayerLabel: UIButton!
     @IBOutlet weak var twoPlayerLabel: UIButton!
+    var cards: [SKSpriteNode] = []
+    var game: Game? = nil
+    var onePlayerScene: AnyObject? = nil
+    var twoPlayerScene: AnyObject? = nil
     
     override func viewDidLoad() {
+        (self.cards, self.game) = LoadData.setUp()
         super.viewDidLoad()
-    }
-
-    @IBAction func clickedTwoPlayer(sender: AnyObject) {
-        titleLabel.hidden = true
-        onePlayerLabel.hidden = true
-        twoPlayerLabel.hidden = true
-        if let scene = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
-            // Configure the view.
-            let skView = self.view as! SKView
-//            skView.showsFPS = true
-//            skView.showsNodeCount = true
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            skView.presentScene(scene, transition: SKTransition.crossFadeWithDuration(2.0))
+        if let scene1 = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
+            self.onePlayerScene = scene1 as SKScene
+            scene1.scaleMode = .AspectFill
+            scene1.cards = cards
+            scene1.game = game!
+        }
+        
+        if let scene2 = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
+            self.twoPlayerScene = scene2 as SKScene
+            scene2.scaleMode = .AspectFill
+            scene2.cards = cards
+            scene2.game = game!
+            scene2.scaleMode = .AspectFill
         }
     }
     
     @IBAction func clickedOnePlayer(sender: AnyObject) {
+        let skView = self.view as! SKView
+        skView.ignoresSiblingOrder = true
         titleLabel.hidden = true
         onePlayerLabel.hidden = true
         twoPlayerLabel.hidden = true
-        if let scene = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
-            // Configure the view.
-            let skView = self.view as! SKView
-//            skView.showsFPS = true
-//            skView.showsNodeCount = true
-            
-            /* Sprite Kit applies additional optimizations to improve rendering performance */
-            skView.ignoresSiblingOrder = true
-            
-            /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
-            skView.presentScene(scene, transition: SKTransition.crossFadeWithDuration(2.0))
-        }
+        skView.presentScene(onePlayerScene as? SKScene)
     }
+    
+    @IBAction func clickedTwoPlayer(sender: AnyObject) {
+        titleLabel.hidden = true
+        onePlayerLabel.hidden = true
+        twoPlayerLabel.hidden = true
+        let skView = self.view as! SKView
+        skView.ignoresSiblingOrder = true
+        skView.presentScene(twoPlayerScene as? SKScene)
+    }
+    
     override func shouldAutorotate() -> Bool {
         return true
     }
