@@ -38,7 +38,6 @@ class MainMenu: SKScene {
             scene2.scaleMode = .AspectFill
             scene2.cards = cards
             scene2.game = game!
-            scene2.scaleMode = .AspectFill
         }
     }
     

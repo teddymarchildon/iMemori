@@ -67,7 +67,7 @@ class TwoPlayerGameScene: SKScene {
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
-                    self.view?.presentScene(scene, transition: SKTransition.flipHorizontalWithDuration(1.5))
+                    self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(1.5))
                 }
             }
         }
