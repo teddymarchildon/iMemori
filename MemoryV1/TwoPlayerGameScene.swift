@@ -112,10 +112,12 @@ class TwoPlayerGameScene: SKScene {
             game.finished = true
             if game.playerOneScore > game.playerTwoScore {
                 winnerLabel.text = "Player 1 won!"
-                playerOneLabel.color = .redColor()
+                playerOneLabel.fontColor = .redColor()
+                playerTwoLabel.fontColor = .whiteColor()
             } else if game.playerTwoScore > game.playerOneScore {
                 winnerLabel.text = "Player 2 won!"
-                playerTwoLabel.color = .redColor()
+                playerOneLabel.fontColor = .whiteColor()
+                playerTwoLabel.fontColor = .redColor()
             } else {
                 winnerLabel.text = "Tie!"
                 playerOneLabel.color = .whiteColor()
