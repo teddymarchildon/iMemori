@@ -57,16 +57,17 @@ class TwoPlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if game.secondChoice != nil && game.firstChoice != nil {
-                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                        self.testMatch()
-                    })
+//                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+//                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+//                        self.testMatch()
+//                    })
+                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
-                    self.view?.presentScene(scene, transition: SKTransition.crossFadeWithDuration(1.5))
+                    self.view?.presentScene(scene, transition: SKTransition.flipHorizontalWithDuration(1.5))
                 }
             }
         }
