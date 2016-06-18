@@ -42,52 +42,57 @@ class Game {
         return self.finished
     }
     
-    func onePlayerTestMatch() {
+    func onePlayerTestMatch() -> Bool {
         if let first = self.firstChoice, second = self.secondChoice {
             if first.isMatch(second) {
                 self.score += 100
                 self.firstChoice = nil
                 self.secondChoice = nil
-                first.removeFromParent()
-                second.removeFromParent()
+                return true
             } else {
                 self.score -= 20
-                self.firstChoice?.selected = false
-                self.firstChoice?.selected = false
+                first.selected = false
+                second.selected = false
                 self.firstChoice = nil
                 self.secondChoice = nil
-                first.flip()
-                second.flip()
+                return false
             }
         }
+        return false
     }
     
-    func twoPlayerTestMatch() {
+    func twoPlayerTestMatch() -> Bool {
         if let first = self.firstChoice, second = self.secondChoice {
             if first.isMatch(second) {
                 if self.playerOneTurn! {
+                    self.playerOneTurn = false
+                    self.playerTwoTurn = true
                     self.playerOneScore! += 100
                 } else {
+                    self.playerOneTurn = true
+                    self.playerTwoTurn = false
                     self.playerTwoScore! += 100
                 }
                 self.firstChoice = nil
                 self.secondChoice = nil
-                first.removeFromParent()
-                second.removeFromParent()
-
+                return true
             } else {
                 if self.playerOneTurn! {
+                    self.playerOneTurn = false
+                    self.playerTwoTurn = true
                     self.playerOneScore! -= 20
                 } else {
+                    self.playerOneTurn = true
+                    self.playerTwoTurn = false
                     self.playerTwoScore! -= 20
                 }
                 first.selected = false
                 second.selected = false
                 self.firstChoice = nil
                 self.secondChoice = nil
-                first.flip()
-                second.flip()
+                return false
             }
         }
+        return false
     }
 }

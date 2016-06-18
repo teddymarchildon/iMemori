@@ -54,15 +54,20 @@ class OnePlayerGameScene: SKScene {
                     card.faceUp = true
                     game.secondChoice = card
                 }
-                if game.secondChoice != nil && game.firstChoice != nil {
-                    let delay = 1.5 * Double(NSEC_PER_SEC)
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                if let first = game.firstChoice, second = game.secondChoice {
+                    let bool = game.onePlayerTestMatch()
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                        self.game.onePlayerTestMatch()
+                        if bool {
+                            first.removeFromParent()
+                            second.removeFromParent()
+                        } else {
+                            first.flip()
+                            second.flip()
+                        }
                         self.updateScoreLabel()
                         self.testEndGame()
                     })
-//                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
@@ -81,11 +86,13 @@ class OnePlayerGameScene: SKScene {
         scoreLabel.text = "\(game.score)"
     }
     
-    func testEndGame() {
+    func testEndGame() -> Bool {
         if self.children.count < 7 {
             game.finished = true
             finishedLabel.hidden = false
             timer.stop()
+            return true
         }
+        return false
     }
 }

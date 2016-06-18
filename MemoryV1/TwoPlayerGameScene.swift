@@ -55,15 +55,20 @@ class TwoPlayerGameScene: SKScene {
                     card.faceUp = true
                     game.secondChoice = card
                 }
-                if game.secondChoice != nil && game.firstChoice != nil {
-                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                if let first = game.firstChoice, second = game.secondChoice {
+                    let bool = game.twoPlayerTestMatch()
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                        self.game.twoPlayerTestMatch()
+                        if bool {
+                            first.removeFromParent()
+                            second.removeFromParent()
+                        } else {
+                            first.flip()
+                            second.flip()
+                        }
                         self.updateScoreLabels()
                         self.testEndGame()
                     })
-//                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
@@ -75,15 +80,11 @@ class TwoPlayerGameScene: SKScene {
     }
     
     func updateScoreLabels() {
-        if game.playerOneTurn! {
-            game.playerOneTurn = false
-            game.playerTwoTurn = true
+        if !game.playerOneTurn!{
             playerOneScoreLabel.text = "\(game.playerOneScore!)"
             playerTwoLabel.fontColor = .blueColor()
             playerOneLabel.fontColor = .whiteColor()
         } else {
-            game.playerTwoTurn = false
-            game.playerOneTurn = true
             playerTwoScoreLabel.text = "\(game.playerTwoScore!)"
             playerOneLabel.fontColor = .blueColor()
             playerTwoLabel.fontColor = .whiteColor()
