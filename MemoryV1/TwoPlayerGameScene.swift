@@ -56,12 +56,14 @@ class TwoPlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if game.secondChoice != nil && game.firstChoice != nil {
-//                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
-//                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-//                        self.testMatch()
-//                    })
-                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                    let delay = 1.5 * Double(NSEC_PER_SEC)  // nanoseconds per seconds
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                        self.game.twoPlayerTestMatch()
+                        self.updateScoreLabels()
+                        self.testEndGame()
+                    })
+//                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
@@ -72,48 +74,23 @@ class TwoPlayerGameScene: SKScene {
         }
     }
     
-    func testMatch() {
-        if let first = game.firstChoice, second = game.secondChoice {
-            if first.isMatch(second) {
-                first.removeFromParent()
-                second.removeFromParent()
-                if game.playerOneTurn! {
-                    game.playerOneScore! += 100
-                } else {
-                    game.playerTwoScore! += 100
-                }
-                updateScoreLabels()
-                reset()
-            } else {
-                if game.playerOneTurn! {
-                    game.playerOneScore! -= 20
-                } else {
-                    game.playerTwoScore! -= 20
-                }
-                updateScoreLabels()
-                flipBoth(first, card2: second)
-                reset()
-            }
-        }
-    }
-    
     func updateScoreLabels() {
         if game.playerOneTurn! {
-            playerOneScoreLabel.text = "\(game.playerOneScore!)"
             game.playerOneTurn = false
             game.playerTwoTurn = true
+            playerOneScoreLabel.text = "\(game.playerOneScore!)"
             playerTwoLabel.fontColor = .blueColor()
             playerOneLabel.fontColor = .whiteColor()
         } else {
-            playerTwoScoreLabel.text = "\(game.playerTwoScore!)"
             game.playerTwoTurn = false
             game.playerOneTurn = true
+            playerTwoScoreLabel.text = "\(game.playerTwoScore!)"
             playerOneLabel.fontColor = .blueColor()
             playerTwoLabel.fontColor = .whiteColor()
         }
     }
     
-    func reset() {
+    func testEndGame() {
         if self.children.count < 7 {
             game.finished = true
             if game.playerOneScore > game.playerTwoScore {
@@ -131,10 +108,6 @@ class TwoPlayerGameScene: SKScene {
             }
             winnerLabel.hidden = false
         }
-        game.firstChoice?.selected = false
-        game.secondChoice?.selected = false
-        game.firstChoice = nil
-        game.secondChoice = nil
     }
     
     func flipBoth(card1: Card, card2: Card) {

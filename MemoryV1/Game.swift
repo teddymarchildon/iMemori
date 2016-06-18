@@ -41,4 +41,53 @@ class Game {
     func isOver() -> Bool {
         return self.finished
     }
+    
+    func onePlayerTestMatch() {
+        if let first = self.firstChoice, second = self.secondChoice {
+            if first.isMatch(second) {
+                self.score += 100
+                self.firstChoice = nil
+                self.secondChoice = nil
+                first.removeFromParent()
+                second.removeFromParent()
+            } else {
+                self.score -= 20
+                self.firstChoice?.selected = false
+                self.firstChoice?.selected = false
+                self.firstChoice = nil
+                self.secondChoice = nil
+                first.flip()
+                second.flip()
+            }
+        }
+    }
+    
+    func twoPlayerTestMatch() {
+        if let first = self.firstChoice, second = self.secondChoice {
+            if first.isMatch(second) {
+                if self.playerOneTurn! {
+                    self.playerOneScore! += 100
+                } else {
+                    self.playerTwoScore! += 100
+                }
+                self.firstChoice = nil
+                self.secondChoice = nil
+                first.removeFromParent()
+                second.removeFromParent()
+
+            } else {
+                if self.playerOneTurn! {
+                    self.playerOneScore! -= 20
+                } else {
+                    self.playerTwoScore! -= 20
+                }
+                first.selected = false
+                second.selected = false
+                self.firstChoice = nil
+                self.secondChoice = nil
+                first.flip()
+                second.flip()
+            }
+        }
+    }
 }

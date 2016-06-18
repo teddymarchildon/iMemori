@@ -55,12 +55,14 @@ class OnePlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if game.secondChoice != nil && game.firstChoice != nil {
-//                    let delay = 1.5 * Double(NSEC_PER_SEC)
-//                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-//                        self.testMatch()
-//                    })
-                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
+                    let delay = 1.5 * Double(NSEC_PER_SEC)
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                    dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                        self.game.onePlayerTestMatch()
+                        self.updateScoreLabel()
+                        self.testEndGame()
+                    })
+//                    NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(testMatch), userInfo: nil, repeats: false)
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
@@ -75,41 +77,15 @@ class OnePlayerGameScene: SKScene {
         timerLabel.text = timer.timerString
     }
     
-    func testMatch() {
-        if let first = game.firstChoice, second = game.secondChoice {
-            if first.isMatch(second) {
-                first.removeFromParent()
-                second.removeFromParent()
-                game.score += 100
-                updateScoreLabel()
-                reset()
-            } else {
-                game.score -= 20
-                updateScoreLabel()
-                flipBoth(first, card2: second)
-                reset()
-            }
-        }
-    }
-    
     func updateScoreLabel() {
         scoreLabel.text = "\(game.score)"
     }
     
-    func reset() {
+    func testEndGame() {
         if self.children.count < 7 {
             game.finished = true
             finishedLabel.hidden = false
             timer.stop()
         }
-        game.firstChoice?.selected = false
-        game.secondChoice?.selected = false
-        game.firstChoice = nil
-        game.secondChoice = nil
-    }
-    
-    func flipBoth(card1: Card, card2: Card) {
-        card1.flip()
-        card2.flip()
     }
 }
