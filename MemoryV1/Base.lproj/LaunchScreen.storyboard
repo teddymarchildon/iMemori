@@ -19,15 +19,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DukeLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Brx-cc-Toe">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="10" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="Brx-cc-Toe" secondAttribute="trailing" constant="-20" id="82Y-eB-otN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Brx-cc-Toe" secondAttribute="trailing" constant="-30" id="82Y-eB-otN"/>
+                            <constraint firstItem="Brx-cc-Toe" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Wdh-DE-Hra"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Brx-cc-Toe" secondAttribute="bottom" id="drB-bJ-L2N"/>
-                            <constraint firstItem="Brx-cc-Toe" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="iTz-kl-ZBK"/>
+                            <constraint firstItem="Brx-cc-Toe" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-10" id="iTz-kl-ZBK"/>
                             <constraint firstItem="Brx-cc-Toe" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="v3p-nF-AWX"/>
+                            <constraint firstItem="Brx-cc-Toe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" constant="10" id="yt8-re-HEq"/>
                         </constraints>
                     </view>
                 </viewController>
