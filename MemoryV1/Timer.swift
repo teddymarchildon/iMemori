@@ -45,7 +45,7 @@ class Timer {
         let strMinutes = String(format: "%02d", minutes)
         let strSeconds = String(format: "%02d", seconds)
         
-        //concatenate minuets, seconds and milliseconds as assign it to the UILabel
+        //concatenate minutes, seconds and milliseconds as assign it to the UILabel
         
         timerString = "\(strMinutes):\(strSeconds)"
         

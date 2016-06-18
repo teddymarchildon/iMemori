@@ -34,7 +34,6 @@ class TwoPlayerGameScene: SKScene {
             self.winnerLabel.hidden = true
             self.mainMenuLabel = mainMenuLabel
         }
-        
         for card in cards {
             self.addChild(card)
         }
@@ -132,7 +131,6 @@ class TwoPlayerGameScene: SKScene {
             }
             winnerLabel.hidden = false
         }
-        
         game.firstChoice?.selected = false
         game.secondChoice?.selected = false
         game.firstChoice = nil
