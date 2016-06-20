@@ -16,7 +16,10 @@ class Game {
     var playerTwoTurn: Bool? = nil
     var playerOneScore: Int? = nil
     var playerTwoScore: Int? = nil
-    var score = 0
+    var score: Int = 0
+    var highscore: Int
+    var fastestTimeInt: Int
+    var fastestTimeString: String
     var finished: Bool = false
     var cardsArray: [Card] = []
     var firstChoice: Card? = nil
@@ -36,7 +39,16 @@ class Game {
             let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
             cardsArray.append(cardCopy)
         }
-    }
+        if let highscore = Records.appRecords.valueForKey("highscore") as? Int, let fastestTimeInt = Records.appRecords.valueForKey("fastestTimeInt") as? Int, let fastestTimeString = Records.appRecords.valueForKey("fastestTimeString") as? String {
+            self.fastestTimeInt = fastestTimeInt
+            self.fastestTimeString = fastestTimeString
+            self.highscore = highscore
+        } else {
+            self.fastestTimeInt = 1000
+            self.fastestTimeString = ""
+            self.highscore = 0
+        }
+     }
     
     func isOver() -> Bool {
         return self.finished

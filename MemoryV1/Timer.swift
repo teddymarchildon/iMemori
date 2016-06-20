@@ -13,8 +13,10 @@ class Timer {
     var off: Bool = true
     var timerString: String = "00:00"
     var inTimer = NSTimer()
-    var counter = 0
     var startTime = NSTimeInterval()
+    var totalSeconds: Int = 0
+    var finalSeconds: String = ""
+    var finalMinutes: String = ""
     
     func start() {
         inTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
@@ -22,6 +24,7 @@ class Timer {
     }
     
     @objc func updateTime() {
+        totalSeconds += 1
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         //Find the difference between current time and start time.
@@ -44,6 +47,8 @@ class Timer {
         
         let strMinutes = String(format: "%02d", minutes)
         let strSeconds = String(format: "%02d", seconds)
+        finalMinutes = strMinutes
+        finalSeconds = strSeconds
         
         //concatenate minutes, seconds and milliseconds as assign it to the UILabel
         

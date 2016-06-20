@@ -17,15 +17,21 @@ class OnePlayerGameScene: SKScene {
     var finishedLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
     var mainMenuLabel: SKLabelNode!
+    var highscoreLabel: SKLabelNode!
+    var fastestTimeLabel: SKLabelNode!
     var timer = Timer()
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode {
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
             self.timerLabel = timerLabel
             self.mainMenuLabel = mainMenuLabel
+            self.highscoreLabel = highscoreLabel
+            self.highscoreLabel.hidden = true
+            self.fastestTimeLabel = fastestTimeLabel
+            self.fastestTimeLabel.hidden = true
             timerLabel.text = timer.timerString
             finishedLabel.hidden = true
         }
@@ -55,24 +61,24 @@ class OnePlayerGameScene: SKScene {
                     game.secondChoice = card
                 }
                 if let first = game.firstChoice, second = game.secondChoice {
-                    let bool = game.onePlayerTestMatch()
+                    let isMatch = game.onePlayerTestMatch()
                     let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                        if bool {
+                        if isMatch {
                             first.removeFromParent()
                             second.removeFromParent()
+                            self.testEndGame()
                         } else {
                             first.flip()
                             second.flip()
                         }
                         self.updateScoreLabel()
-                        self.testEndGame()
                     })
                 }
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
-                    self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(1.5))
+                    self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.5))
                 }
             }
         }
@@ -87,10 +93,23 @@ class OnePlayerGameScene: SKScene {
     }
     
     func testEndGame() -> Bool {
-        if self.children.count < 7 {
+        if self.children.count < 8 {
             game.finished = true
-            finishedLabel.hidden = false
             timer.stop()
+            finishedLabel.hidden = false
+            if game.score > game.highscore {
+                Records.setHighscore(game.score)
+                game.highscore = Records.highscore!
+            }
+            if timer.totalSeconds < game.fastestTimeInt {
+                Records.setFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                game.fastestTimeInt = Records.fastestTimeInt!
+                game.fastestTimeString = Records.fastestTimeString!
+            }
+            highscoreLabel.text = "Highscore: \(Records.highscore!)"
+            fastestTimeLabel.text = "Fastest Time: \(Records.fastestTimeString!)"
+            highscoreLabel.hidden = false
+            fastestTimeLabel.hidden = false
             return true
         }
         return false

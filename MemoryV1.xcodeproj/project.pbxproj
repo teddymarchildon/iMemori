@@ -10,6 +10,9 @@
 		B16D7A2E1D1450EE00ECD5A1 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D7A2D1D1450EE00ECD5A1 /* Data.swift */; };
 		B16D7A301D1465CE00ECD5A1 /* MainMenu.sks in Resources */ = {isa = PBXBuildFile; fileRef = B16D7A2F1D1465CE00ECD5A1 /* MainMenu.sks */; };
 		B16D7A321D1465E100ECD5A1 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D7A311D1465E100ECD5A1 /* MainMenu.swift */; };
+		B192E7281D183875007384CD /* HighscoresScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B192E7271D183875007384CD /* HighscoresScene.sks */; };
+		B192E72C1D186B23007384CD /* HighscoresScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B192E72B1D186B23007384CD /* HighscoresScene.swift */; };
+		B192E72E1D1871D4007384CD /* Records.swift in Sources */ = {isa = PBXBuildFile; fileRef = B192E72D1D1871D4007384CD /* Records.swift */; };
 		B1A3932C1D12F07D00A66E2E /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A3932B1D12F07D00A66E2E /* Game.swift */; };
 		B1A3932E1D130ED400A66E2E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A3932D1D130ED400A66E2E /* Timer.swift */; };
 		B1B8AA911D137CC400A1EC5E /* TwoPlayerGameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B1B8AA901D137CC400A1EC5E /* TwoPlayerGameScene.sks */; };
@@ -28,6 +31,9 @@
 		B16D7A2D1D1450EE00ECD5A1 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		B16D7A2F1D1465CE00ECD5A1 /* MainMenu.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainMenu.sks; sourceTree = "<group>"; };
 		B16D7A311D1465E100ECD5A1 /* MainMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
+		B192E7271D183875007384CD /* HighscoresScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HighscoresScene.sks; sourceTree = "<group>"; };
+		B192E72B1D186B23007384CD /* HighscoresScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HighscoresScene.swift; path = ../HighscoresScene.swift; sourceTree = "<group>"; };
+		B192E72D1D1871D4007384CD /* Records.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Records.swift; sourceTree = "<group>"; };
 		B1A3932B1D12F07D00A66E2E /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		B1A3932D1D130ED400A66E2E /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		B1B8AA901D137CC400A1EC5E /* TwoPlayerGameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TwoPlayerGameScene.sks; sourceTree = "<group>"; };
@@ -77,6 +83,9 @@
 				B1F2C4731D1072FB00D1F971 /* AppDelegate.swift */,
 				B1F2C4751D1072FB00D1F971 /* OnePlayerGameScene.sks */,
 				B1F2C4771D1072FB00D1F971 /* OnePlayerGameScene.swift */,
+				B192E7271D183875007384CD /* HighscoresScene.sks */,
+				B192E72B1D186B23007384CD /* HighscoresScene.swift */,
+				B192E72D1D1871D4007384CD /* Records.swift */,
 				B1B8AA901D137CC400A1EC5E /* TwoPlayerGameScene.sks */,
 				B1B8AA921D137CD700A1EC5E /* TwoPlayerGameScene.swift */,
 				B16D7A2F1D1465CE00ECD5A1 /* MainMenu.sks */,
@@ -159,6 +168,7 @@
 				B1F2C4821D1072FB00D1F971 /* LaunchScreen.storyboard in Resources */,
 				B1F2C47F1D1072FB00D1F971 /* Assets.xcassets in Resources */,
 				B1F2C47D1D1072FB00D1F971 /* Main.storyboard in Resources */,
+				B192E7281D183875007384CD /* HighscoresScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,11 +183,13 @@
 				B16D7A321D1465E100ECD5A1 /* MainMenu.swift in Sources */,
 				B1A3932C1D12F07D00A66E2E /* Game.swift in Sources */,
 				B1F2C47A1D1072FB00D1F971 /* GameViewController.swift in Sources */,
+				B192E72E1D1871D4007384CD /* Records.swift in Sources */,
 				B1A3932E1D130ED400A66E2E /* Timer.swift in Sources */,
 				B1F2C4741D1072FB00D1F971 /* AppDelegate.swift in Sources */,
 				B1F2C48A1D10745000D1F971 /* Card.swift in Sources */,
 				B1B8AA931D137CD700A1EC5E /* TwoPlayerGameScene.swift in Sources */,
 				B16D7A2E1D1450EE00ECD5A1 /* Data.swift in Sources */,
+				B192E72C1D186B23007384CD /* HighscoresScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

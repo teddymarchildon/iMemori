@@ -63,8 +63,7 @@ class TwoPlayerGameScene: SKScene {
                             first.removeFromParent()
                             second.removeFromParent()
                         } else {
-                            first.flip()
-                            second.flip()
+                            self.flipBoth(first, card2: second)
                         }
                         self.updateScoreLabels()
                         self.testEndGame()
@@ -73,7 +72,7 @@ class TwoPlayerGameScene: SKScene {
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
-                    self.view?.presentScene(scene, transition: SKTransition.flipVerticalWithDuration(1.5))
+                    self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.0))
                 }
             }
         }
