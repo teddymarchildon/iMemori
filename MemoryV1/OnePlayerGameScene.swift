@@ -62,7 +62,7 @@ class OnePlayerGameScene: SKScene {
                 }
                 if let first = game.firstChoice, second = game.secondChoice {
                     let isMatch = game.onePlayerTestMatch()
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.3 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         if isMatch {
                             first.removeFromParent()
@@ -78,7 +78,7 @@ class OnePlayerGameScene: SKScene {
             } else if node == mainMenuLabel {
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
-                    self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.5))
+                    self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 1.0))
                 }
             }
         }
@@ -97,14 +97,16 @@ class OnePlayerGameScene: SKScene {
             game.finished = true
             timer.stop()
             finishedLabel.hidden = false
-            if game.score > game.highscore {
+            if let highscore = Records.highscore, fastestTimeInt = Records.fastestTimeInt {
+                if game.score > highscore {
+                    Records.setHighscore(game.score)
+                }
+                if timer.totalSeconds < fastestTimeInt {
+                    Records.setFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                }
+            } else {
                 Records.setHighscore(game.score)
-                game.highscore = Records.highscore!
-            }
-            if timer.totalSeconds < game.fastestTimeInt {
                 Records.setFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
-                game.fastestTimeInt = Records.fastestTimeInt!
-                game.fastestTimeString = Records.fastestTimeString!
             }
             highscoreLabel.text = "Highscore: \(Records.highscore!)"
             fastestTimeLabel.text = "Fastest Time: \(Records.fastestTimeString!)"

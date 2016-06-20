@@ -28,7 +28,7 @@ class TwoPlayerGameScene: SKScene {
             self.playerOneScoreLabel = playerOneScoreLabel
             self.playerTwoScoreLabel = playerTwoScoreLabel
             self.playerOneLabel = playerOneLabel
-            self.playerOneLabel.fontColor = UIColor.blueColor()
+            self.playerOneLabel.fontColor = .blackColor()
             self.playerTwoLabel = playerTwoLabel
             self.winnerLabel = winnerLabel
             self.winnerLabel.hidden = true
@@ -57,7 +57,7 @@ class TwoPlayerGameScene: SKScene {
                 }
                 if let first = game.firstChoice, second = game.secondChoice {
                     let bool = game.twoPlayerTestMatch()
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.3 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         if bool {
                             first.removeFromParent()
@@ -81,11 +81,11 @@ class TwoPlayerGameScene: SKScene {
     func updateScoreLabels() {
         if !game.playerOneTurn!{
             playerOneScoreLabel.text = "\(game.playerOneScore!)"
-            playerTwoLabel.fontColor = .blueColor()
+            playerTwoLabel.fontColor = .blackColor()
             playerOneLabel.fontColor = .whiteColor()
         } else {
             playerTwoScoreLabel.text = "\(game.playerTwoScore!)"
-            playerOneLabel.fontColor = .blueColor()
+            playerOneLabel.fontColor = .blackColor()
             playerTwoLabel.fontColor = .whiteColor()
         }
     }
@@ -95,12 +95,12 @@ class TwoPlayerGameScene: SKScene {
             game.finished = true
             if game.playerOneScore > game.playerTwoScore {
                 winnerLabel.text = "Player 1 won!"
-                playerOneLabel.fontColor = .redColor()
+                playerOneLabel.fontColor = .greenColor()
                 playerTwoLabel.fontColor = .whiteColor()
             } else if game.playerTwoScore > game.playerOneScore {
                 winnerLabel.text = "Player 2 won!"
                 playerOneLabel.fontColor = .whiteColor()
-                playerTwoLabel.fontColor = .redColor()
+                playerTwoLabel.fontColor = .greenColor()
             } else {
                 winnerLabel.text = "Tie!"
                 playerOneLabel.color = .whiteColor()

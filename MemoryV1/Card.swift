@@ -63,8 +63,8 @@ enum Deck {
 class Card: SKSpriteNode {
     
     var selected: Bool = false
-    var faceUp = false
-    final let coverTexture = SKTexture(imageNamed: "DukeLogo")
+    var faceUp: Bool = false
+    final let coverTexture = SKTexture(imageNamed: "CoverTexture")
     let suit: Deck.Suit
     let value: Deck.Value
     let flipTexture: SKTexture
@@ -89,11 +89,11 @@ class Card: SKSpriteNode {
     }
     
     func flip() {
-        let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.2)
-        let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.2)
-        
-        setScale(1.0)
-        
+        let firstHalfFlip = SKAction.scaleXTo(0.0, duration: 0.1)
+        let secondHalfFlip = SKAction.scaleXTo(1.0, duration: 0.1)
+        let popUp = SKAction.scaleTo(1.2, duration: 0.1)
+        let backDown = SKAction.scaleTo(1.0, duration: 0.1)
+
         if faceUp {
             runAction(firstHalfFlip) {
                 self.texture = self.coverTexture
@@ -101,10 +101,10 @@ class Card: SKSpriteNode {
                 self.runAction(secondHalfFlip)
             }
         } else {
-            runAction(firstHalfFlip) {
+            runAction(SKAction.sequence([popUp, firstHalfFlip])) {
                 self.texture = self.flipTexture
                 self.faceUp = true
-                self.runAction(secondHalfFlip)
+                self.runAction(SKAction.sequence([secondHalfFlip, backDown]))
             }
         }
     }
