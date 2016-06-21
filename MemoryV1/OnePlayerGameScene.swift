@@ -62,7 +62,7 @@ class OnePlayerGameScene: SKScene {
                 }
                 if let first = game.firstChoice, second = game.secondChoice {
                     let isMatch = game.onePlayerTestMatch()
-                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.3 * Double(NSEC_PER_SEC)))
+                    let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.1 * Double(NSEC_PER_SEC)))
                     dispatch_after(dispatchTime, dispatch_get_main_queue(), {
                         if isMatch {
                             first.removeFromParent()
