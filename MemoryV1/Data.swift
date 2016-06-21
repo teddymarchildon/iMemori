@@ -30,7 +30,7 @@ class LoadData {
         var ret: [SKSpriteNode] = []
         for num in 0...3 {
             let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 200.0, height: 270.0)
+            card.size = CGSize(width: 210.0, height: 280.0)
             card.position = positions
             card.name = "\(name)"
             name += 1
@@ -46,7 +46,7 @@ class LoadData {
         var ret: [SKSpriteNode] = []
         for num in 4...7 {
             let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 200.0, height: 270.0)
+            card.size = CGSize(width: 210.0, height: 280.0)
             card.position = positions
             card.name = "\(name)"
             name += 1
@@ -62,7 +62,7 @@ class LoadData {
         var ret: [SKSpriteNode] = []
         for num in 8...11 {
             let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 200.0, height: 270.0)
+            card.size = CGSize(width: 210.0, height: 280.0)
             card.position = positions
             card.name = "\(name)"
             name += 1
@@ -78,7 +78,7 @@ class LoadData {
         var ret: [SKSpriteNode] = []
         for num in 12...15 {
             let card = cards[num] as SKSpriteNode
-            card.size = CGSize(width: 200.0, height: 270.0)
+            card.size = CGSize(width: 210.0, height: 280.0)
             card.position = positions
             card.name = "\(name)"
             name += 1

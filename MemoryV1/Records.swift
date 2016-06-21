@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Records {
+final class Records {
     
     static var appRecords = NSUserDefaults.standardUserDefaults()
     
