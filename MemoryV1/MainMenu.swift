@@ -54,11 +54,11 @@ class MainMenu: SKScene {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
             if node == onePlayerMode {
-                self.view?.presentScene((onePlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0))
+                self.view?.presentScene((onePlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             } else if node == twoPlayerMode {
-                self.view?.presentScene((twoPlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0))
+                self.view?.presentScene((twoPlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             } else if node == toRecordLabel {
-                self.view?.presentScene((recordScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 1.0))
+                self.view?.presentScene((recordScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             }
         }
     }
