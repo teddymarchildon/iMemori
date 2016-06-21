@@ -64,7 +64,7 @@ class Card: SKSpriteNode {
     
     var selected: Bool = false
     var faceUp: Bool = false
-    final let coverTexture = SKTexture(imageNamed: "LightBlueColor")
+    final let coverTexture = SKTexture(imageNamed: "NewLightGrayGradient")
     let suit: Deck.Suit
     let value: Deck.Value
     let flipTexture: SKTexture
