@@ -103,8 +103,8 @@ class TwoPlayerGameScene: SKScene {
                 playerTwoLabel.fontColor = .greenColor()
             } else {
                 winnerLabel.text = "Tie!"
-                playerOneLabel.color = .whiteColor()
-                playerTwoLabel.color = .whiteColor()
+                playerOneLabel.fontColor = .whiteColor()
+                playerTwoLabel.fontColor = .whiteColor()
             }
             winnerLabel.hidden = false
         }
