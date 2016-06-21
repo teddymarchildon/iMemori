@@ -76,6 +76,7 @@ class OnePlayerGameScene: SKScene {
                     })
                 }
             } else if node == mainMenuLabel {
+                mainMenuLabel.fontColor = .lightGrayColor()
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
                     self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5))

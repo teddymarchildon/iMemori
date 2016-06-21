@@ -54,10 +54,13 @@ class MainMenu: SKScene {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
             if node == onePlayerMode {
+                onePlayerMode.fontColor = .lightGrayColor()
                 self.view?.presentScene((onePlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             } else if node == twoPlayerMode {
+                twoPlayerMode.fontColor = .lightGrayColor()
                 self.view?.presentScene((twoPlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             } else if node == toRecordLabel {
+                toRecordLabel.fontColor = .lightGrayColor()
                 self.view?.presentScene((recordScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             }
         }
