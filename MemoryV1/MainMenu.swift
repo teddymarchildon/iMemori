@@ -11,22 +11,31 @@ import SpriteKit
 class MainMenu: SKScene {
     
     var mainLabel: SKLabelNode!
-    var onePlayerMode: SKLabelNode!
-    var twoPlayerMode: SKLabelNode!
-    var toRecordLabel: SKLabelNode!
+    var onePlayerMode: SKSpriteNode!
+    var twoPlayerMode: SKSpriteNode!
+    var toRecordScene: SKSpriteNode!
+    var onePlayerLabel: SKLabelNode!
+    var twoPlayerLabel: SKLabelNode!
+    var recordLabel: SKLabelNode!
     var cards: [SKSpriteNode] = []
     var game: Game? = nil
     var onePlayerScene: AnyObject? = nil
     var twoPlayerScene: AnyObject? = nil
     var recordScene: AnyObject? = nil
+    var pressed: SKAction = SKAction.scaleTo(1.2, duration: 0.5)
     
     override func didMoveToView(view: SKView) {
         (self.cards, self.game) = LoadData.setUp()
-        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let onePlayerMode = self.childNodeWithName("onePlayerMode") as? SKLabelNode, let twoPlayerMode = self.childNodeWithName("twoPlayerMode") as? SKLabelNode, let toRecordLabel = self.childNodeWithName("toRecordLabel") as? SKLabelNode {
+        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let onePlayerMode = self.childNodeWithName("onePlayerButtonSprite") as? SKSpriteNode, let twoPlayerMode = self.childNodeWithName("twoPlayerButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode {
             self.mainLabel = mainLabel
             self.onePlayerMode = onePlayerMode
             self.twoPlayerMode = twoPlayerMode
-            self.toRecordLabel = toRecordLabel
+            self.toRecordScene = toRecordLabel
+            if let onePlayerLabel = onePlayerMode.childNodeWithName("onePlayerLabel") as? SKLabelNode, let twoPlayerLabel = twoPlayerMode.childNodeWithName("twoPlayerLabel") as? SKLabelNode, let recordLabel = toRecordScene.childNodeWithName("recordsLabel") as? SKLabelNode {
+                self.onePlayerLabel = onePlayerLabel
+                self.twoPlayerLabel = twoPlayerLabel
+                self.recordLabel = recordLabel
+            }
         }
         
         if let scene1 = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
@@ -53,14 +62,14 @@ class MainMenu: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
-            if node == onePlayerMode {
-                onePlayerMode.fontColor = .lightGrayColor()
+            if node == onePlayerMode || node == onePlayerLabel {
+                onePlayerLabel.fontColor = .lightGrayColor()
                 self.view?.presentScene((onePlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
-            } else if node == twoPlayerMode {
-                twoPlayerMode.fontColor = .lightGrayColor()
+            } else if node == twoPlayerMode || node == twoPlayerLabel {
+                twoPlayerLabel.fontColor = .lightGrayColor()
                 self.view?.presentScene((twoPlayerScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
-            } else if node == toRecordLabel {
-                toRecordLabel.fontColor = .lightGrayColor()
+            } else if node == toRecordScene || node == recordLabel {
+                recordLabel.fontColor = .lightGrayColor()
                 self.view?.presentScene((recordScene as? SKScene)!, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
             }
         }
