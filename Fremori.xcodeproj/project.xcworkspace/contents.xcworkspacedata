@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MemoryV1.xcodeproj">
+      location = "self:/Users/tedmarchildon/Documents/Xcode/MemoryV1/Fremori.xcodeproj">
    </FileRef>
 </Workspace>

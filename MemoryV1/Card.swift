@@ -76,6 +76,13 @@ class Card: SKSpriteNode {
         self.init(cardSuit: suit, cardValue: value, flipTexture: flipString)
     }
     
+    convenience init(withSuit suit: Deck.Suit) {
+        let suit = suit
+        let value = Deck.Value.getRandomValue()
+        let flipString = SKTexture(imageNamed: Deck.getCardTexture(suit, value: value))
+        self.init(cardSuit: suit, cardValue: value, flipTexture: flipString)
+    }
+    
     init(cardSuit: Deck.Suit, cardValue: Deck.Value, flipTexture: SKTexture) {
         self.suit = cardSuit
         self.value = cardValue

@@ -9,6 +9,20 @@
 import Foundation
 import SpriteKit
 
+enum GameModes {
+    
+    enum PlayerModes: String {
+        case Choose = "Choose..."
+        case OnePlayer = "One Player"
+        case TwoPlayer = "Two Players"
+    }
+    
+    enum DifficultyModes: String {
+        case Choose = "Choose..."
+        case Regular = "Regular"
+        case Hard = "Hard"
+    }
+}
 
 class Game {
     
@@ -21,22 +35,49 @@ class Game {
     var cardsArray: [Card] = []
     var firstChoice: Card? = nil
     var secondChoice: Card? = nil
+    var difficulty: GameModes.DifficultyModes
     
-    init() {
-        var valueSet = Set<Deck.Value>()
-        while cardsArray.count < 8 {
-            let card = Card()
-            if valueSet.count == 13 { valueSet.removeAll() }
-            if !valueSet.contains(card.value) {
-                valueSet.insert(card.value)
-                cardsArray.append(card)
+    convenience init() {
+        self.init(difficulty: GameModes.DifficultyModes.Regular)
+    }
+    
+    init(difficulty: GameModes.DifficultyModes) {
+        self.difficulty = difficulty
+        if difficulty == .Regular {
+            var valueSet = Set<Deck.Value>()
+            while cardsArray.count < 8 {
+                let card = Card()
+                if valueSet.count == 13 { valueSet.removeAll() }
+                if !valueSet.contains(card.value) {
+                    valueSet.insert(card.value)
+                    cardsArray.append(card)
+                }
+            }
+            for card in cardsArray {
+                let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
+                cardsArray.append(cardCopy)
+            }
+        } else if difficulty == .Hard {
+            var valueSet = Set<Deck.Value>()
+            var suits = [Deck.Suit.clubs, Deck.Suit.diamonds, Deck.Suit.hearts, Deck.Suit.spades]
+            var counter = 0
+            while cardsArray.count < 16 {
+                if valueSet.count == 4 {
+                    valueSet.removeAll()
+                    counter += 1
+                }
+                let card = Card(withSuit: suits[counter])
+                if !valueSet.contains(card.value) {
+                    valueSet.insert(card.value)
+                    cardsArray.append(card)
+                }
+            }
+            for card in cardsArray {
+                let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
+                cardsArray.append(cardCopy)
             }
         }
-        for card in cardsArray {
-            let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
-            cardsArray.append(cardCopy)
-        }
-     }
+    }
     
     func isOver() -> Bool {
         return self.finished

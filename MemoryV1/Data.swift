@@ -9,10 +9,10 @@
 import Foundation
 import SpriteKit
 
-class LoadData {
+class LoadDataRegular {
 
     static func setUp() -> ([SKSpriteNode], Game?) {
-        let game = Game()
+        let game = Game(difficulty: GameModes.DifficultyModes.Regular)
         let cards = game.cardsArray.shuffle()
         var a1 = setFirstRow(cards)
         let a2 = setSecondRow(cards)
@@ -23,6 +23,7 @@ class LoadData {
         a1.appendContentsOf(a4)
         return (a1, game)
     }
+    
     
     static func setFirstRow(cards: [Card]) -> [SKSpriteNode] {
         var positions: CGPoint = CGPoint(x: 155, y: 1250)
@@ -77,6 +78,123 @@ class LoadData {
         var name = 12
         var ret: [SKSpriteNode] = []
         for num in 12...15 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+}
+
+class LoadDataHard {
+    
+    static func setUp() -> ([SKSpriteNode], Game?) {
+        let game = Game(difficulty: GameModes.DifficultyModes.Hard)
+        let cards = game.cardsArray.shuffle()
+        var a1 = setFirstRow(cards)
+        let a2 = setSecondRow(cards)
+        let a3 = setThirdRow(cards)
+        let a4 = setFourthRow(cards)
+        let a5 = setFifthRow(cards)
+        let a6 = setSixthRow(cards)
+        a1.appendContentsOf(a2)
+        a1.appendContentsOf(a3)
+        a1.appendContentsOf(a4)
+        a1.appendContentsOf(a5)
+        a1.appendContentsOf(a6)
+        return (a1, game)
+    }
+    
+    
+    static func setFirstRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 1250)
+        var name = 0
+        var ret: [SKSpriteNode] = []
+        for num in 0...5 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+    
+    static func setSecondRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 920)
+        var name = 4
+        var ret: [SKSpriteNode] = []
+        for num in 6...11 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+    
+    static func setThirdRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 590)
+        var name = 8
+        var ret: [SKSpriteNode] = []
+        for num in 12...17 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+    
+    static func setFourthRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 260)
+        var name = 12
+        var ret: [SKSpriteNode] = []
+        for num in 18...23 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+    
+    static func setFifthRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 260)
+        var name = 12
+        var ret: [SKSpriteNode] = []
+        for num in 24...29 {
+            let card = cards[num] as SKSpriteNode
+            card.size = CGSize(width: 210.0, height: 280.0)
+            card.position = positions
+            card.name = "\(name)"
+            name += 1
+            positions.x += 250
+            ret.append(card)
+        }
+        return ret
+    }
+    
+    static func setSixthRow(cards: [Card]) -> [SKSpriteNode] {
+        var positions: CGPoint = CGPoint(x: 155, y: 260)
+        var name = 12
+        var ret: [SKSpriteNode] = []
+        for num in 30...35 {
             let card = cards[num] as SKSpriteNode
             card.size = CGSize(width: 210.0, height: 280.0)
             card.position = positions
