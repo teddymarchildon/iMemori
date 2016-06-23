@@ -98,7 +98,7 @@
 		B1F2C4671D1072FB00D1F971 = {
 			isa = PBXGroup;
 			children = (
-				B1F2C4721D1072FB00D1F971 /* MemoryV1 */,
+				B1F2C4721D1072FB00D1F971 /* Fremori */,
 				B1F2C4711D1072FB00D1F971 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -111,7 +111,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B1F2C4721D1072FB00D1F971 /* MemoryV1 */ = {
+		B1F2C4721D1072FB00D1F971 /* Fremori */ = {
 			isa = PBXGroup;
 			children = (
 				B19EF5AF1D19EBDA008F2ADC /* SceneControllers */,
@@ -124,6 +124,7 @@
 				B1F2C4801D1072FB00D1F971 /* LaunchScreen.storyboard */,
 				B1F2C4831D1072FB00D1F971 /* Info.plist */,
 			);
+			name = Fremori;
 			path = MemoryV1;
 			sourceTree = "<group>";
 		};
