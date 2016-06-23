@@ -16,27 +16,36 @@ class OnePlayerGameScene: SKScene {
     var scoreLabel: SKLabelNode!
     var finishedLabel: SKLabelNode!
     var timerLabel: SKLabelNode!
-    var mainMenuLabel: SKLabelNode!
+    var backToMainLabel: SKLabelNode!
+    var backToMainSprite: SKSpriteNode!
     var highscoreLabel: SKLabelNode!
     var fastestTimeLabel: SKLabelNode!
     var multiplierLabel: SKLabelNode!
     var timer = Timer()
+    var playAgainSprite: SKSpriteNode!
+    var playAgainLabel: SKLabelNode!
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode, let multiplierLabel = self.childNodeWithName("multiplierLabel") as? SKLabelNode {
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode, let multiplierLabel = self.childNodeWithName("multiplierLabel") as? SKLabelNode, playAgainSprite = self.childNodeWithName("playAgainSprite") as? SKSpriteNode, backToMainSprite = self.childNodeWithName("backToMainSprite") as? SKSpriteNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
             self.timerLabel = timerLabel
-            self.mainMenuLabel = mainMenuLabel
             self.highscoreLabel = highscoreLabel
             self.highscoreLabel.hidden = true
             self.fastestTimeLabel = fastestTimeLabel
             self.fastestTimeLabel.hidden = true
             self.multiplierLabel = multiplierLabel
+            self.playAgainSprite = playAgainSprite
+            self.backToMainSprite = backToMainSprite
             multiplierLabel.text = "\(game.multiplier)x"
             timerLabel.text = timer.timerString
             finishedLabel.hidden = true
+            playAgainSprite.hidden = true
+        }
+        if let playAgainLabel = playAgainSprite.childNodeWithName("playAgainLabel") as? SKLabelNode, backToMainLabel = backToMainSprite.childNodeWithName("backToMainLabel") as? SKLabelNode {
+            self.playAgainLabel = playAgainLabel
+            self.backToMainLabel = backToMainLabel
         }
         for card in cards {
             self.addChild(card)
@@ -78,11 +87,27 @@ class OnePlayerGameScene: SKScene {
                         self.updateScoreLabel()
                     })
                 }
-            } else if node == mainMenuLabel {
-                mainMenuLabel.fontColor = .lightGrayColor()
+            } else if node == backToMainSprite || node == backToMainLabel {
+                backToMainLabel.fontColor = .lightGrayColor()
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
                     self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5))
+                }
+            } else if node == playAgainSprite || node == playAgainLabel {
+                playAgainLabel.fontColor = .lightGrayColor()
+                if let scene = OnePlayerGameScene(fileNamed: "OnePlayerGameScene") {
+                    scene.scaleMode = .AspectFit
+                    if game.difficulty == .Hard {
+                        let cardsAndGame = LoadDataHard.setUp()
+                        scene.cards = cardsAndGame.0
+                        scene.game = cardsAndGame.1
+                        self.view?.presentScene(scene)
+                    } else {
+                        let cardsAndGame = LoadDataRegular.setUp()
+                        scene.cards = cardsAndGame.0
+                        scene.game = cardsAndGame.1
+                        self.view?.presentScene(scene)
+                    }
                 }
             }
         }
@@ -99,10 +124,11 @@ class OnePlayerGameScene: SKScene {
     
     func testEndGame() -> Bool {
         if game.difficulty == .Regular {
-            if self.children.count < 9 {
+            if self.children.count < 10 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false
+                playAgainSprite.hidden = false
                 if let highscore = Records.regularHighscore, fastestTimeInt = Records.regularFastestTimeInt {
                     if game.score > highscore {
                         Records.setRegularHighscore(game.score)
@@ -121,10 +147,11 @@ class OnePlayerGameScene: SKScene {
                 return true
             } else { return false }
         } else {
-            if self.children.count < 9 {
+            if self.children.count < 10 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false
+                playAgainSprite.hidden = false
                 if let highscore = Records.hardHighscore, fastestTimeInt = Records.hardFastestTimeInt {
                     if game.score > highscore {
                         Records.setHardHighscore(game.score)

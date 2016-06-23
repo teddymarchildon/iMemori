@@ -50,7 +50,6 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     
     var cardsAndGameRegular: (cards: [SKSpriteNode], game: Game) = ([], Game())
     var cardsAndGameHard: (cards: [SKSpriteNode], game: Game) = ([], Game(difficulty: .Hard))
-    
     var onePlayerScene: OnePlayerGameScene? = nil
     var twoPlayerScene: TwoPlayerGameScene? = nil
     var recordScene: HighscoresScene? = nil

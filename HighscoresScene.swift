@@ -16,16 +16,20 @@ class HighscoresScene: SKScene {
     var hardFastestTimeRecordLabel: SKLabelNode!
     var regularHighestScoreRecordLabel: SKLabelNode!
     var regularFastestTimeRecordLabel: SKLabelNode!
-    var mainMenuLabel: SKLabelNode!
+    var backToMainLabel: SKLabelNode!
+    var backToMainSprite: SKSpriteNode!
     
     override func didMoveToView(view: SKView) {
-        if let titleLabel = self.childNodeWithName("titleLabel") as? SKLabelNode, regularHighestScoreRecordLabel = self.childNodeWithName("regularHighscoreRecordLabel") as? SKLabelNode, regularFastestTimeRecordLabel = self.childNodeWithName("regularFastestTimeRecordLabel") as? SKLabelNode, mainMenuLabel = self.childNodeWithName("mainMenuLabel") as? SKLabelNode, hardHighestScoreRecordLabel = self.childNodeWithName("hardHighscoreRecordLabel") as? SKLabelNode, hardFastestTimeRecordLabel = self.childNodeWithName("hardFastestTimeRecordLabel") as? SKLabelNode {
+        if let titleLabel = self.childNodeWithName("titleLabel") as? SKLabelNode, regularHighestScoreRecordLabel = self.childNodeWithName("regularHighscoreRecordLabel") as? SKLabelNode, regularFastestTimeRecordLabel = self.childNodeWithName("regularFastestTimeRecordLabel") as? SKLabelNode, hardHighestScoreRecordLabel = self.childNodeWithName("hardHighscoreRecordLabel") as? SKLabelNode, hardFastestTimeRecordLabel = self.childNodeWithName("hardFastestTimeRecordLabel") as? SKLabelNode, backToMainSprite = self.childNodeWithName("backToMainSprite") as? SKSpriteNode {
             self.titleLabel = titleLabel
             self.regularHighestScoreRecordLabel = regularHighestScoreRecordLabel
             self.regularFastestTimeRecordLabel = regularFastestTimeRecordLabel
-            self.mainMenuLabel = mainMenuLabel
             self.hardFastestTimeRecordLabel = hardFastestTimeRecordLabel
             self.hardHighestScoreRecordLabel = hardHighestScoreRecordLabel
+            self.backToMainSprite = backToMainSprite
+        }
+        if let backToMainLabel = backToMainSprite.childNodeWithName("backToMainLabel") as? SKLabelNode {
+            self.backToMainLabel = backToMainLabel
         }
         guard let regularHighestScore = Records.regularHighscore, regularFastestTimeString = Records.regularFastestTimeString else {
             regularHighestScoreRecordLabel.text = "Play!"
@@ -35,8 +39,8 @@ class HighscoresScene: SKScene {
         regularHighestScoreRecordLabel.text = "Highest Score: \(regularHighestScore)"
         regularFastestTimeRecordLabel.text = "Fastest Time: " + regularFastestTimeString
         guard let hardHighestScore = Records.hardHighscore, hardFastestTimeString = Records.hardFastestTimeString else {
-            regularHighestScoreRecordLabel.text = "Play!"
-            regularFastestTimeRecordLabel.text = "See how fast you can get!"
+            hardHighestScoreRecordLabel.text = "Play!"
+            hardFastestTimeRecordLabel.text = "See how fast you can get!"
             return
         }
         hardHighestScoreRecordLabel.text = "Highest Score: \(hardHighestScore)"
@@ -47,8 +51,8 @@ class HighscoresScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
-            if node == mainMenuLabel {
-                mainMenuLabel.fontColor = .lightGrayColor()
+            if node == backToMainSprite || node == backToMainLabel {
+                backToMainLabel.fontColor = .lightGrayColor()
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
                     self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5))

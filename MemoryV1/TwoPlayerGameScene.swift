@@ -16,10 +16,13 @@ class TwoPlayerGameScene: SKScene {
     var playerTwoLabel: SKLabelNode!
     var playerOneScoreLabel: SKLabelNode!
     var playerTwoScoreLabel: SKLabelNode!
-    var mainMenuLabel: SKLabelNode!
+    var backToMainLabel: SKLabelNode!
     var winnerLabel: SKLabelNode!
     var playerOneMultiplierLabel: SKLabelNode!
     var playerTwoMultiplierLabel: SKLabelNode!
+    var playAgainSprite: SKSpriteNode!
+    var playAgainLabel: SKLabelNode!
+    var backToMainSprite: SKSpriteNode!
     
     override func didMoveToView(view: SKView) {
         game.playerOneTurn = true
@@ -28,7 +31,7 @@ class TwoPlayerGameScene: SKScene {
         game.playerTwoScore = 0
         game.playerOneMultiplier = 1
         game.playerTwoMultiplier = 1
-        if let playerOneScoreLabel = self.childNodeWithName("playerOneScoreLabel") as? SKLabelNode, let playerTwoScoreLabel = self.childNodeWithName("playerTwoScoreLabel") as? SKLabelNode, let playerOneLabel = self.childNodeWithName("playerOneScore") as? SKLabelNode, let playerTwoLabel = self.childNodeWithName("playerTwoScore") as? SKLabelNode, let winnerLabel = self.childNodeWithName("winnerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, playerOneMultiplierLabel = self.childNodeWithName("playerOneMultiplierLabel") as? SKLabelNode, playerTwoMultiplierLabel = self.childNodeWithName("playerTwoMultiplierLabel") as? SKLabelNode {
+        if let playerOneScoreLabel = self.childNodeWithName("playerOneScoreLabel") as? SKLabelNode, let playerTwoScoreLabel = self.childNodeWithName("playerTwoScoreLabel") as? SKLabelNode, let playerOneLabel = self.childNodeWithName("playerOneScore") as? SKLabelNode, let playerTwoLabel = self.childNodeWithName("playerTwoScore") as? SKLabelNode, let winnerLabel = self.childNodeWithName("winnerLabel") as? SKLabelNode, playerOneMultiplierLabel = self.childNodeWithName("playerOneMultiplierLabel") as? SKLabelNode, playerTwoMultiplierLabel = self.childNodeWithName("playerTwoMultiplierLabel") as? SKLabelNode, playAgainSprite = self.childNodeWithName("playAgainSprite") as? SKSpriteNode, backToMainSprite = self.childNodeWithName("backToMainSprite") as? SKSpriteNode {
             self.playerOneScoreLabel = playerOneScoreLabel
             self.playerTwoScoreLabel = playerTwoScoreLabel
             self.playerOneLabel = playerOneLabel
@@ -36,11 +39,17 @@ class TwoPlayerGameScene: SKScene {
             self.playerTwoLabel = playerTwoLabel
             self.winnerLabel = winnerLabel
             self.winnerLabel.hidden = true
-            self.mainMenuLabel = mainMenuLabel
+            self.backToMainSprite = backToMainSprite
             self.playerOneMultiplierLabel = playerOneMultiplierLabel
             self.playerTwoMultiplierLabel = playerTwoMultiplierLabel
             self.playerOneMultiplierLabel.text = "\(game.playerOneMultiplier!)x"
             self.playerTwoMultiplierLabel.text = "\(game.playerTwoMultiplier!)x"
+            self.playAgainSprite = playAgainSprite
+            self.playAgainSprite.hidden = true
+        }
+        if let playAgainLabel = playAgainSprite.childNodeWithName("playAgainLabel") as? SKLabelNode, backToMainLabel = backToMainSprite.childNodeWithName("backToMainLabel") as? SKLabelNode {
+            self.playAgainLabel = playAgainLabel
+            self.backToMainLabel = backToMainLabel
         }
         for card in cards {
             self.addChild(card)
@@ -77,11 +86,27 @@ class TwoPlayerGameScene: SKScene {
                         self.testEndGame()
                     })
                 }
-            } else if node == mainMenuLabel {
-                mainMenuLabel.fontColor = .lightGrayColor()
+            } else if node == backToMainSprite || node == backToMainLabel {
+                backToMainLabel.fontColor = .lightGrayColor()
                 if let scene = MainMenu(fileNamed: "MainMenu") {
                     scene.scaleMode = .AspectFit
                     self.view?.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.5))
+                }
+            } else if node == playAgainSprite || node == playAgainLabel {
+                playAgainLabel.fontColor = .lightGrayColor()
+                if let scene = TwoPlayerGameScene(fileNamed: "TwoPlayerGameScene") {
+                    scene.scaleMode = .AspectFit
+                    if game.difficulty == .Hard {
+                        let cardsAndGame = LoadDataHard.setUp()
+                        scene.cards = cardsAndGame.0
+                        scene.game = cardsAndGame.1
+                        self.view?.presentScene(scene)
+                    } else {
+                        let cardsAndGame = LoadDataRegular.setUp()
+                        scene.cards = cardsAndGame.0
+                        scene.game = cardsAndGame.1
+                        self.view?.presentScene(scene)
+                    }
                 }
             }
         }
@@ -102,8 +127,9 @@ class TwoPlayerGameScene: SKScene {
     }
     
     func testEndGame() {
-        if self.children.count < 9 {
+        if self.children.count < 10 {
             game.finished = true
+            playAgainSprite.hidden = false
             if game.playerOneScore > game.playerTwoScore {
                 winnerLabel.text = "Player 1 won!"
                 playerOneLabel.fontColor = .greenColor()
