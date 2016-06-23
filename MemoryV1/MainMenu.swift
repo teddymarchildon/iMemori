@@ -48,14 +48,16 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
         }
     }
     
-    var cards: [SKSpriteNode] = []
-    var game: Game? = nil
-    var onePlayerScene: AnyObject? = nil
-    var twoPlayerScene: AnyObject? = nil
-    var recordScene: AnyObject? = nil
+    var cardsAndGameRegular: (cards: [SKSpriteNode], game: Game) = ([], Game())
+    var cardsAndGameHard: (cards: [SKSpriteNode], game: Game) = ([], Game(difficulty: .Hard))
+    
+    var onePlayerScene: OnePlayerGameScene? = nil
+    var twoPlayerScene: TwoPlayerGameScene? = nil
+    var recordScene: HighscoresScene? = nil
     
     override func didMoveToView(view: SKView) {
-        (self.cards, self.game) = LoadDataRegular.setUp()
+        cardsAndGameRegular = LoadDataRegular.setUp()
+        cardsAndGameHard = LoadDataHard.setUp()
         let playerPickerView: UIPickerView = UIPickerView()
         let difficultyPickerView: UIPickerView = UIPickerView()
         setTextField(playerTextField, inputView: playerPickerView)
@@ -76,21 +78,17 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
         
         if let scene1 = OnePlayerGameScene(fileNamed:"OnePlayerGameScene") {
             scene1.scaleMode = .AspectFit
-            scene1.cards = cards
-            scene1.game = game!
-            self.onePlayerScene = scene1 as SKScene
+            self.onePlayerScene = scene1
         }
         
         if let scene2 = TwoPlayerGameScene(fileNamed:"TwoPlayerGameScene") {
             scene2.scaleMode = .AspectFit
-            scene2.cards = cards
-            scene2.game = game!
-            self.twoPlayerScene = scene2 as SKScene
+            self.twoPlayerScene = scene2
         }
         
         if let recordScene = HighscoresScene(fileNamed: "HighscoresScene") {
             recordScene.scaleMode = .AspectFit
-            self.recordScene = recordScene as SKScene
+            self.recordScene = recordScene
         }
     }
     
@@ -127,16 +125,38 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view?.endEditing(true)
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = nodeAtPoint(location)
             if node == playButtonLabel || node == playButtonSprite {
                 playButtonLabel.fontColor = .lightGrayColor()
-                //TODO: Fill In
+                if playerMode == .TwoPlayer {
+                    switch difficultyMode {
+                    case .Hard:
+                        twoPlayerScene?.cards = cardsAndGameHard.cards
+                        twoPlayerScene?.game = cardsAndGameHard.game
+                    default:
+                        twoPlayerScene?.cards = cardsAndGameRegular.cards
+                        twoPlayerScene?.game = cardsAndGameRegular.game
+                    }
+                    self.view?.presentScene(twoPlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                } else {
+                    switch difficultyMode {
+                    case .Hard:
+                        onePlayerScene?.cards = cardsAndGameHard.cards
+                        onePlayerScene?.game = cardsAndGameHard.game
+                    default:
+                        onePlayerScene?.cards = cardsAndGameRegular.cards
+                        onePlayerScene?.game = cardsAndGameRegular.game
+                    }
+                    self.view?.presentScene(onePlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                }
+                hideLabels()
             } else if node == recordLabel || node == toRecordScene {
                 hideLabels()
                 recordLabel.fontColor = .lightGrayColor()
-                self.view?.presentScene((recordScene as? SKScene)!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                self.view?.presentScene(recordScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
             }
         }
     }

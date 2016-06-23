@@ -94,27 +94,50 @@ class OnePlayerGameScene: SKScene {
     }
     
     func testEndGame() -> Bool {
-        if self.children.count < 8 {
-            game.finished = true
-            timer.stop()
-            finishedLabel.hidden = false
-            if let highscore = Records.highscore, fastestTimeInt = Records.fastestTimeInt {
-                if game.score > highscore {
-                    Records.setHighscore(game.score)
+        if game.difficulty == .Regular {
+            if self.children.count < 8 {
+                game.finished = true
+                timer.stop()
+                finishedLabel.hidden = false
+                if let highscore = Records.regularHighscore, fastestTimeInt = Records.regularFastestTimeInt {
+                    if game.score > highscore {
+                        Records.setRegularHighscore(game.score)
+                    }
+                    if timer.totalSeconds < fastestTimeInt {
+                        Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                    }
+                } else {
+                    Records.setRegularHighscore(game.score)
+                    Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
                 }
-                if timer.totalSeconds < fastestTimeInt {
-                    Records.setFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                highscoreLabel.text = "Regular Highscore: \(Records.regularHighscore!)"
+                fastestTimeLabel.text = "Regular Fastest Time: \(Records.regularFastestTimeString!)"
+                highscoreLabel.hidden = false
+                fastestTimeLabel.hidden = false
+                return true
+            } else { return false }
+        } else {
+            if self.children.count < 8 {
+                game.finished = true
+                timer.stop()
+                finishedLabel.hidden = false
+                if let highscore = Records.hardHighscore, fastestTimeInt = Records.hardFastestTimeInt {
+                    if game.score > highscore {
+                        Records.setHardHighscore(game.score)
+                    }
+                    if timer.totalSeconds < fastestTimeInt {
+                        Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                    }
+                } else {
+                    Records.setHardHighscore(game.score)
+                    Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
                 }
-            } else {
-                Records.setHighscore(game.score)
-                Records.setFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
-            }
-            highscoreLabel.text = "Highscore: \(Records.highscore!)"
-            fastestTimeLabel.text = "Fastest Time: \(Records.fastestTimeString!)"
-            highscoreLabel.hidden = false
-            fastestTimeLabel.hidden = false
-            return true
+                highscoreLabel.text = "Hard Highscore: \(Records.hardHighscore!)"
+                fastestTimeLabel.text = "Hard Fastest Time: \(Records.hardFastestTimeString!)"
+                highscoreLabel.hidden = false
+                fastestTimeLabel.hidden = false
+                return true
+            } else { return false }
         }
-        return false
     }
 }

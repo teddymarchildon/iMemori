@@ -12,24 +12,44 @@ final class Records {
     
     static var appRecords = NSUserDefaults.standardUserDefaults()
     
-    static var highscore: Int? {
-        return appRecords.valueForKey("highestScore") as? Int
+    static var regularHighscore: Int? {
+        return appRecords.valueForKey("regularHighestScore") as? Int
     }
-    static var fastestTimeString: String? {
-        return appRecords.valueForKey("fastestTimeString") as? String
-    }
-    
-    static var fastestTimeInt: Int? {
-        return appRecords.valueForKey("fastestTimeInt") as? Int
+    static var regularFastestTimeString: String? {
+        return appRecords.valueForKey("regularFastestTimeString") as? String
     }
     
-    static func setHighscore(newScore: Int) {
-        appRecords.setValue(newScore, forKey: "highestScore")
+    static var regularFastestTimeInt: Int? {
+        return appRecords.valueForKey("regularFastestTimeInt") as? Int
     }
     
-    static func setFastestTime(newTimeInt: Int, newTimeString: String) {
-        appRecords.setValue(newTimeInt, forKey: "fastestTimeInt")
-        appRecords.setValue(newTimeString, forKey: "fastestTimeString")
+    static var hardHighscore: Int? {
+        return appRecords.valueForKey("hardHighestScore") as? Int
+    }
+    static var hardFastestTimeString: String? {
+        return appRecords.valueForKey("hardFastestTimeString") as? String
+    }
+    
+    static var hardFastestTimeInt: Int? {
+        return appRecords.valueForKey("hardFastestTimeInt") as? Int
+    }
+    
+    static func setRegularHighscore(newScore: Int) {
+        appRecords.setValue(newScore, forKey: "regularHighestScore")
+    }
+    
+    static func setRegularFastestTime(newTimeInt: Int, newTimeString: String) {
+        appRecords.setValue(newTimeInt, forKey: "regularFastestTimeInt")
+        appRecords.setValue(newTimeString, forKey: "regularFastestTimeString")
+    }
+    
+    static func setHardHighscore(newScore: Int) {
+        appRecords.setValue(newScore, forKey: "hardHighestScore")
+    }
+    
+    static func setHardFastestTime(newTimeInt: Int, newTimeString: String) {
+        appRecords.setValue(newTimeInt, forKey: "hardFastestTimeInt")
+        appRecords.setValue(newTimeString, forKey: "hardFastestTimeString")
     }
     
 }

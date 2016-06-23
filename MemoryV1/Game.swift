@@ -53,16 +53,12 @@ class Game {
                     cardsArray.append(card)
                 }
             }
-            for card in cardsArray {
-                let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
-                cardsArray.append(cardCopy)
-            }
         } else if difficulty == .Hard {
             var valueSet = Set<Deck.Value>()
             var suits = [Deck.Suit.clubs, Deck.Suit.diamonds, Deck.Suit.hearts, Deck.Suit.spades]
             var counter = 0
-            while cardsArray.count < 16 {
-                if valueSet.count == 4 {
+            while cardsArray.count < 18 {
+                if valueSet.count == 5 {
                     valueSet.removeAll()
                     counter += 1
                 }
@@ -72,10 +68,10 @@ class Game {
                     cardsArray.append(card)
                 }
             }
-            for card in cardsArray {
-                let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
-                cardsArray.append(cardCopy)
-            }
+        }
+        for card in cardsArray {
+            let cardCopy = Card(cardSuit: card.suit, cardValue: card.value, flipTexture: card.flipTexture)
+            cardsArray.append(cardCopy)
         }
     }
     

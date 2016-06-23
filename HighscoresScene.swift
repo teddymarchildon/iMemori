@@ -12,25 +12,35 @@ import SpriteKit
 class HighscoresScene: SKScene {
     
     var titleLabel: SKLabelNode!
-    var highestScoreRecordLabel: SKLabelNode!
-    var fastestTimeRecordLabel: SKLabelNode!
+    var hardHighestScoreRecordLabel: SKLabelNode!
+    var hardFastestTimeRecordLabel: SKLabelNode!
+    var regularHighestScoreRecordLabel: SKLabelNode!
+    var regularFastestTimeRecordLabel: SKLabelNode!
     var mainMenuLabel: SKLabelNode!
-    var game = Game()
     
     override func didMoveToView(view: SKView) {
-        if let titleLabel = self.childNodeWithName("titleLabel") as? SKLabelNode, highestScoreRecordLabel = self.childNodeWithName("highscoreRecordLabel") as? SKLabelNode, fastestTimeRecordLabel = self.childNodeWithName("fastestTimeRecordLabel") as? SKLabelNode, mainMenuLabel = self.childNodeWithName("mainMenuLabel") as? SKLabelNode {
+        if let titleLabel = self.childNodeWithName("titleLabel") as? SKLabelNode, regularHighestScoreRecordLabel = self.childNodeWithName("regularHighscoreRecordLabel") as? SKLabelNode, regularFastestTimeRecordLabel = self.childNodeWithName("regularFastestTimeRecordLabel") as? SKLabelNode, mainMenuLabel = self.childNodeWithName("mainMenuLabel") as? SKLabelNode, hardHighestScoreRecordLabel = self.childNodeWithName("hardHighscoreRecordLabel") as? SKLabelNode, hardFastestTimeRecordLabel = self.childNodeWithName("hardFastestTimeRecordLabel") as? SKLabelNode {
             self.titleLabel = titleLabel
-            self.highestScoreRecordLabel = highestScoreRecordLabel
-            self.fastestTimeRecordLabel = fastestTimeRecordLabel
+            self.regularHighestScoreRecordLabel = regularHighestScoreRecordLabel
+            self.regularFastestTimeRecordLabel = regularFastestTimeRecordLabel
             self.mainMenuLabel = mainMenuLabel
+            self.hardFastestTimeRecordLabel = hardFastestTimeRecordLabel
+            self.hardHighestScoreRecordLabel = hardHighestScoreRecordLabel
         }
-        guard let highestScore = Records.highscore, fastestTimeString = Records.fastestTimeString else {
-            highestScoreRecordLabel.text = "Play!"
-            fastestTimeRecordLabel.text = "See how fast you can get!"
+        guard let regularHighestScore = Records.regularHighscore, regularFastestTimeString = Records.regularFastestTimeString else {
+            regularHighestScoreRecordLabel.text = "Play!"
+            regularFastestTimeRecordLabel.text = "See how fast you can get!"
             return
         }
-        highestScoreRecordLabel.text = "Highest Score: \(highestScore)"
-        fastestTimeRecordLabel.text = "Fastest Time: " + fastestTimeString
+        regularHighestScoreRecordLabel.text = "Highest Score: \(regularHighestScore)"
+        regularFastestTimeRecordLabel.text = "Fastest Time: " + regularFastestTimeString
+        guard let hardHighestScore = Records.hardHighscore, hardFastestTimeString = Records.hardFastestTimeString else {
+            regularHighestScoreRecordLabel.text = "Play!"
+            regularFastestTimeRecordLabel.text = "See how fast you can get!"
+            return
+        }
+        hardHighestScoreRecordLabel.text = "Highest Score: \(hardHighestScore)"
+        hardFastestTimeRecordLabel.text = "Fastest Time: " + hardFastestTimeString
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
