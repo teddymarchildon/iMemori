@@ -18,13 +18,17 @@ class TwoPlayerGameScene: SKScene {
     var playerTwoScoreLabel: SKLabelNode!
     var mainMenuLabel: SKLabelNode!
     var winnerLabel: SKLabelNode!
+    var playerOneMultiplierLabel: SKLabelNode!
+    var playerTwoMultiplierLabel: SKLabelNode!
     
     override func didMoveToView(view: SKView) {
         game.playerOneTurn = true
         game.playerTwoTurn = false
         game.playerOneScore = 0
         game.playerTwoScore = 0
-        if let playerOneScoreLabel = self.childNodeWithName("playerOneScoreLabel") as? SKLabelNode, let playerTwoScoreLabel = self.childNodeWithName("playerTwoScoreLabel") as? SKLabelNode, let playerOneLabel = self.childNodeWithName("playerOneScore") as? SKLabelNode, let playerTwoLabel = self.childNodeWithName("playerTwoScore") as? SKLabelNode, let winnerLabel = self.childNodeWithName("winnerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode {
+        game.playerOneMultiplier = 1
+        game.playerTwoMultiplier = 1
+        if let playerOneScoreLabel = self.childNodeWithName("playerOneScoreLabel") as? SKLabelNode, let playerTwoScoreLabel = self.childNodeWithName("playerTwoScoreLabel") as? SKLabelNode, let playerOneLabel = self.childNodeWithName("playerOneScore") as? SKLabelNode, let playerTwoLabel = self.childNodeWithName("playerTwoScore") as? SKLabelNode, let winnerLabel = self.childNodeWithName("winnerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, playerOneMultiplierLabel = self.childNodeWithName("playerOneMultiplierLabel") as? SKLabelNode, playerTwoMultiplierLabel = self.childNodeWithName("playerTwoMultiplierLabel") as? SKLabelNode {
             self.playerOneScoreLabel = playerOneScoreLabel
             self.playerTwoScoreLabel = playerTwoScoreLabel
             self.playerOneLabel = playerOneLabel
@@ -33,6 +37,10 @@ class TwoPlayerGameScene: SKScene {
             self.winnerLabel = winnerLabel
             self.winnerLabel.hidden = true
             self.mainMenuLabel = mainMenuLabel
+            self.playerOneMultiplierLabel = playerOneMultiplierLabel
+            self.playerTwoMultiplierLabel = playerTwoMultiplierLabel
+            self.playerOneMultiplierLabel.text = "\(game.playerOneMultiplier!)x"
+            self.playerTwoMultiplierLabel.text = "\(game.playerTwoMultiplier!)x"
         }
         for card in cards {
             self.addChild(card)
@@ -84,15 +92,17 @@ class TwoPlayerGameScene: SKScene {
             playerOneScoreLabel.text = "\(game.playerOneScore!)"
             playerTwoLabel.fontColor = .blackColor()
             playerOneLabel.fontColor = .whiteColor()
+            self.playerOneMultiplierLabel.text = "\(game.playerOneMultiplier!)x"
         } else {
             playerTwoScoreLabel.text = "\(game.playerTwoScore!)"
             playerOneLabel.fontColor = .blackColor()
             playerTwoLabel.fontColor = .whiteColor()
+            self.playerTwoMultiplierLabel.text = "\(game.playerTwoMultiplier!)x"
         }
     }
     
     func testEndGame() {
-        if self.children.count < 7 {
+        if self.children.count < 9 {
             game.finished = true
             if game.playerOneScore > game.playerTwoScore {
                 winnerLabel.text = "Player 1 won!"

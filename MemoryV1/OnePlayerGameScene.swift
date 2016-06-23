@@ -19,10 +19,11 @@ class OnePlayerGameScene: SKScene {
     var mainMenuLabel: SKLabelNode!
     var highscoreLabel: SKLabelNode!
     var fastestTimeLabel: SKLabelNode!
+    var multiplierLabel: SKLabelNode!
     var timer = Timer()
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode {
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let mainMenuLabel = self.childNodeWithName("backToMainLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode, let multiplierLabel = self.childNodeWithName("multiplierLabel") as? SKLabelNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
@@ -32,6 +33,8 @@ class OnePlayerGameScene: SKScene {
             self.highscoreLabel.hidden = true
             self.fastestTimeLabel = fastestTimeLabel
             self.fastestTimeLabel.hidden = true
+            self.multiplierLabel = multiplierLabel
+            multiplierLabel.text = "\(game.multiplier)x"
             timerLabel.text = timer.timerString
             finishedLabel.hidden = true
         }
@@ -91,11 +94,12 @@ class OnePlayerGameScene: SKScene {
     
     func updateScoreLabel() {
         scoreLabel.text = "\(game.score)"
+        multiplierLabel.text = "\(game.multiplier)x"
     }
     
     func testEndGame() -> Bool {
         if game.difficulty == .Regular {
-            if self.children.count < 8 {
+            if self.children.count < 9 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false
@@ -117,7 +121,7 @@ class OnePlayerGameScene: SKScene {
                 return true
             } else { return false }
         } else {
-            if self.children.count < 8 {
+            if self.children.count < 9 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false

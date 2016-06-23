@@ -36,6 +36,9 @@ class Game {
     var firstChoice: Card? = nil
     var secondChoice: Card? = nil
     var difficulty: GameModes.DifficultyModes
+    var multiplier: Int = 1
+    var playerOneMultiplier: Int? = nil
+    var playerTwoMultiplier: Int? = nil
     
     convenience init() {
         self.init(difficulty: GameModes.DifficultyModes.Regular)
@@ -82,12 +85,14 @@ class Game {
     func onePlayerTestMatch() -> Bool {
         if let first = self.firstChoice, second = self.secondChoice {
             if first.isMatch(second) {
-                self.score += 100
+                self.score += 100 * multiplier
+                multiplier += 1
                 self.firstChoice = nil
                 self.secondChoice = nil
                 return true
             } else {
                 self.score -= 20
+                multiplier = 1
                 first.selected = false
                 second.selected = false
                 self.firstChoice = nil
@@ -99,16 +104,18 @@ class Game {
     }
     
     func twoPlayerTestMatch() -> Bool {
-        if let first = self.firstChoice, second = self.secondChoice {
+        if let first = self.firstChoice, second = self.secondChoice, playerOneMultiplier = playerOneMultiplier, playerTwoMultiplier = playerTwoMultiplier {
             if first.isMatch(second) {
                 if self.playerOneTurn! {
                     self.playerOneTurn = false
                     self.playerTwoTurn = true
-                    self.playerOneScore! += 100
+                    self.playerOneScore! += 100 * playerOneMultiplier
+                    self.playerOneMultiplier! += 1
                 } else {
                     self.playerOneTurn = true
                     self.playerTwoTurn = false
-                    self.playerTwoScore! += 100
+                    self.playerTwoScore! += 100 * playerTwoMultiplier
+                    self.playerTwoMultiplier! += 1
                 }
                 self.firstChoice = nil
                 self.secondChoice = nil
@@ -118,10 +125,12 @@ class Game {
                     self.playerOneTurn = false
                     self.playerTwoTurn = true
                     self.playerOneScore! -= 20
+                    self.playerOneMultiplier = 1
                 } else {
                     self.playerOneTurn = true
                     self.playerTwoTurn = false
                     self.playerTwoScore! -= 20
+                    self.playerTwoMultiplier = 1
                 }
                 first.selected = false
                 second.selected = false
