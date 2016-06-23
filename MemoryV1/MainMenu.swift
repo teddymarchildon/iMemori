@@ -59,8 +59,11 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
         cardsAndGameHard = LoadDataHard.setUp()
         let playerPickerView: UIPickerView = UIPickerView()
         let difficultyPickerView: UIPickerView = UIPickerView()
-        setTextField(playerTextField, inputView: playerPickerView)
-        setTextField(difficultyTextField, inputView: difficultyPickerView)
+//        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
+//        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+//            self.setTextField(self.playerTextField, inputView: playerPickerView)
+//            self.setTextField(self.difficultyTextField, inputView: difficultyPickerView)
+//        })
         playerPickerView.tag = 1
         difficultyPickerView.tag = 2
         if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let modeLabel = self.childNodeWithName("modeLabel") as? SKLabelNode, let difficultyLabel = self.childNodeWithName("difficultyLabel") as? SKLabelNode, let playButtonSprite = self.childNodeWithName("playButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode {
@@ -89,6 +92,8 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
             recordScene.scaleMode = .AspectFit
             self.recordScene = recordScene
         }
+        setTextField(playerTextField, inputView: playerPickerView)
+        setTextField(difficultyTextField, inputView: difficultyPickerView)
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int{
@@ -139,7 +144,7 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
                         twoPlayerScene?.cards = cardsAndGameRegular.cards
                         twoPlayerScene?.game = cardsAndGameRegular.game
                     }
-                    self.view?.presentScene(twoPlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                    self.view?.presentScene(twoPlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.4))
                 } else {
                     switch difficultyMode {
                     case .Hard:
@@ -149,13 +154,13 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
                         onePlayerScene?.cards = cardsAndGameRegular.cards
                         onePlayerScene?.game = cardsAndGameRegular.game
                     }
-                    self.view?.presentScene(onePlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                    self.view?.presentScene(onePlayerScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.4))
                 }
                 hideLabels()
             } else if node == recordLabel || node == toRecordScene {
                 hideLabels()
                 recordLabel.fontColor = .lightGrayColor()
-                self.view?.presentScene(recordScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.5))
+                self.view?.presentScene(recordScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.4))
             }
         }
     }

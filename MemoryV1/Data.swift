@@ -92,10 +92,10 @@ class LoadDataRegular {
 
 class LoadDataHard {
     
-    static let width = 150.0
+    static let width = 160.0
     static let height = 230.0
-    static let xIncrement = CGFloat(integerLiteral: 170)
-    static let xStart = 115
+    static let xIncrement = CGFloat(integerLiteral: 175)
+    static let xStart = 105
     
     static func setUp() -> ([SKSpriteNode], Game) {
         let game = Game(difficulty: GameModes.DifficultyModes.Hard)
