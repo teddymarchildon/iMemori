@@ -117,8 +117,6 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     
     func setPlayerTextField(field: UITextField, inputView: UIPickerView) {
         field.translatesAutoresizingMaskIntoConstraints = false
-//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 40))
-//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 140))
         let right = NSLayoutConstraint(item: field, attribute: .Right, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: -32)
         let top = NSLayoutConstraint(item: field, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 240)
         self.view?.addConstraints([right, top])
@@ -135,8 +133,6 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     
     func setDifficultyTextField(field: UITextField, inputView: UIPickerView) {
         field.translatesAutoresizingMaskIntoConstraints = false
-//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.8, constant: 40))
-//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.8, constant: 140))
         let right = NSLayoutConstraint(item: field, attribute: .Right, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: -32)
         let top = NSLayoutConstraint(item: field, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 310)
         self.view?.addConstraints([ right, top ])
