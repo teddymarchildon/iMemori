@@ -18,9 +18,9 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     var toRecordScene: SKSpriteNode!
     var playButtonSprite: SKSpriteNode!
     var playButtonLabel: SKLabelNode!
-    var modeLabel: SKLabelNode!
-    var difficultyLabel: SKLabelNode!
     var recordLabel: SKLabelNode!
+    var modeUILabel: UILabel = UILabel()
+    var difficultyUILabel: UILabel = UILabel()
     
     var playerMode: GameModes.PlayerModes {
         if let text = playerTextField.text {
@@ -59,17 +59,10 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
         cardsAndGameHard = LoadDataHard.setUp()
         let playerPickerView: UIPickerView = UIPickerView()
         let difficultyPickerView: UIPickerView = UIPickerView()
-//        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC)))
-//        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-//            self.setTextField(self.playerTextField, inputView: playerPickerView)
-//            self.setTextField(self.difficultyTextField, inputView: difficultyPickerView)
-//        })
         playerPickerView.tag = 1
         difficultyPickerView.tag = 2
-        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let modeLabel = self.childNodeWithName("modeLabel") as? SKLabelNode, let difficultyLabel = self.childNodeWithName("difficultyLabel") as? SKLabelNode, let playButtonSprite = self.childNodeWithName("playButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode {
+        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let playButtonSprite = self.childNodeWithName("playButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode {
             self.mainLabel = mainLabel
-            self.modeLabel = modeLabel
-            self.difficultyLabel = difficultyLabel
             self.toRecordScene = toRecordLabel
             self.playButtonSprite = playButtonSprite
             if let recordLabel = toRecordScene.childNodeWithName("recordsLabel") as? SKLabelNode, let playButtonLabel = playButtonSprite.childNodeWithName("playLabel") as? SKLabelNode {
@@ -92,9 +85,72 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
             recordScene.scaleMode = .AspectFit
             self.recordScene = recordScene
         }
-        setTextField(playerTextField, inputView: playerPickerView)
-        setTextField(difficultyTextField, inputView: difficultyPickerView)
+        self.view?.addSubview(modeUILabel)
+        self.view?.addSubview(playerTextField)
+        self.view?.addSubview(difficultyTextField)
+        self.view?.addSubview(difficultyUILabel)
+        setPlayerTextField(playerTextField, inputView: playerPickerView)
+        setDifficultyTextField(difficultyTextField, inputView: difficultyPickerView)
+        setModeLabel()
+        setDifficultyLabel()
     }
+    
+    func setModeLabel() {
+        modeUILabel.text = "Mode:"
+        modeUILabel.font = UIFont.systemFontOfSize(35)
+        modeUILabel.textColor = .whiteColor()
+        modeUILabel.translatesAutoresizingMaskIntoConstraints = false
+        let left = NSLayoutConstraint(item: modeUILabel, attribute: .Left, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 50)
+        let top = NSLayoutConstraint(item: modeUILabel, attribute: .Top, relatedBy: .Equal, toItem: playerTextField, attribute: .Top, multiplier: 1.0, constant: -8)
+        self.view?.addConstraints([left, top])
+    }
+    
+    func setDifficultyLabel() {
+        difficultyUILabel.text = "Difficulty:"
+        difficultyUILabel.font = UIFont.systemFontOfSize(35)
+        difficultyUILabel.textColor = .whiteColor()
+        difficultyUILabel.translatesAutoresizingMaskIntoConstraints = false
+        let left = NSLayoutConstraint(item: difficultyUILabel, attribute: .Left, relatedBy: .Equal, toItem: self.view, attribute: .Left, multiplier: 1.0, constant: 30)
+        let top = NSLayoutConstraint(item: difficultyUILabel, attribute: .Top, relatedBy: .Equal, toItem: difficultyTextField, attribute: .Top, multiplier: 1.0, constant: -8)
+        self.view?.addConstraints([left, top])
+    }
+    
+    func setPlayerTextField(field: UITextField, inputView: UIPickerView) {
+        field.translatesAutoresizingMaskIntoConstraints = false
+//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 40))
+//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 140))
+        let right = NSLayoutConstraint(item: field, attribute: .Right, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: -32)
+        let top = NSLayoutConstraint(item: field, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 240)
+        self.view?.addConstraints([right, top])
+        field.inputView = inputView
+        field.font = UIFont.systemFontOfSize(20)
+        field.borderStyle = UITextBorderStyle.RoundedRect
+        field.delegate = self
+        field.textAlignment = .Center
+        field.textColor = UIColor(red: 0.0, green: 145/255.0, blue: 255/255.0, alpha: 1.0)
+        field.text = "Choose..."
+        inputView.dataSource = self
+        inputView.delegate = self
+    }
+    
+    func setDifficultyTextField(field: UITextField, inputView: UIPickerView) {
+        field.translatesAutoresizingMaskIntoConstraints = false
+//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.8, constant: 40))
+//        field.addConstraint(NSLayoutConstraint(item: field, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 0.8, constant: 140))
+        let right = NSLayoutConstraint(item: field, attribute: .Right, relatedBy: .Equal, toItem: self.view, attribute: .Right, multiplier: 1.0, constant: -32)
+        let top = NSLayoutConstraint(item: field, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1.0, constant: 310)
+        self.view?.addConstraints([ right, top ])
+        field.inputView = inputView
+        field.font = UIFont.systemFontOfSize(20)
+        field.borderStyle = UITextBorderStyle.RoundedRect
+        field.delegate = self
+        field.textAlignment = .Center
+        field.textColor = UIColor(red: 0.0, green: 145/255.0, blue: 255/255.0, alpha: 1.0)
+        field.text = "Choose..."
+        inputView.dataSource = self
+        inputView.delegate = self
+    }
+    
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int{
         return 1
@@ -168,18 +224,7 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     func hideLabels() {
         playerTextField.removeFromSuperview()
         difficultyTextField.removeFromSuperview()
-    }
-    
-    func setTextField(field: UITextField, inputView: UIPickerView) {
-        field.inputView = inputView
-        field.font = UIFont.systemFontOfSize(20)
-        field.borderStyle = UITextBorderStyle.RoundedRect
-        field.delegate = self
-        field.textAlignment = .Center
-        field.textColor = UIColor(red: 0.0, green: 145/255.0, blue: 255/255.0, alpha: 1.0)
-        field.text = "Choose..."
-        inputView.dataSource = self
-        inputView.delegate = self
-        self.view?.addSubview(field)
+        modeUILabel.removeFromSuperview()
+        difficultyUILabel.removeFromSuperview()
     }
 }
