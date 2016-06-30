@@ -7,8 +7,9 @@
 //
 
 import SpriteKit
+import GameKit
 
-class OnePlayerGameScene: SKScene {
+class OnePlayerGameScene: SKScene, GKGameCenterControllerDelegate {
     
     var game = Game()
     var cards: [SKSpriteNode] = []
@@ -24,9 +25,11 @@ class OnePlayerGameScene: SKScene {
     var timer = Timer()
     var playAgainSprite: SKSpriteNode!
     var playAgainLabel: SKLabelNode!
+    var leaderboardSprite: SKSpriteNode!
+    var leaderboardLabel: SKLabelNode!
     
     override func didMoveToView(view: SKView) {
-        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode, let multiplierLabel = self.childNodeWithName("multiplierLabel") as? SKLabelNode, playAgainSprite = self.childNodeWithName("playAgainSprite") as? SKSpriteNode, backToMainSprite = self.childNodeWithName("backToMainSprite") as? SKSpriteNode {
+        if let textLabel = self.childNodeWithName("textLabel") as? SKLabelNode, let scoreLabel = self.childNodeWithName("scoreLabel") as? SKLabelNode, let finishedLabel = self.childNodeWithName("finishedLabel") as? SKLabelNode, let timerLabel = self.childNodeWithName("timerLabel") as? SKLabelNode, let highscoreLabel = self.childNodeWithName("highscoreLabel") as? SKLabelNode, let fastestTimeLabel = self.childNodeWithName("fastestTimeLabel") as? SKLabelNode, let multiplierLabel = self.childNodeWithName("multiplierLabel") as? SKLabelNode, playAgainSprite = self.childNodeWithName("playAgainSprite") as? SKSpriteNode, backToMainSprite = self.childNodeWithName("backToMainSprite") as? SKSpriteNode, leaderboardSprite = self.childNodeWithName("leaderboardSprite") as? SKSpriteNode {
             self.textLabel = textLabel
             self.scoreLabel = scoreLabel
             self.finishedLabel = finishedLabel
@@ -38,14 +41,17 @@ class OnePlayerGameScene: SKScene {
             self.multiplierLabel = multiplierLabel
             self.playAgainSprite = playAgainSprite
             self.backToMainSprite = backToMainSprite
+            self.leaderboardSprite = leaderboardSprite
+            self.leaderboardSprite.hidden = true
             multiplierLabel.text = "\(game.multiplier)x"
             timerLabel.text = timer.timerString
             finishedLabel.hidden = true
             playAgainSprite.hidden = true
         }
-        if let playAgainLabel = playAgainSprite.childNodeWithName("playAgainLabel") as? SKLabelNode, backToMainLabel = backToMainSprite.childNodeWithName("backToMainLabel") as? SKLabelNode {
+        if let playAgainLabel = playAgainSprite.childNodeWithName("playAgainLabel") as? SKLabelNode, backToMainLabel = backToMainSprite.childNodeWithName("backToMainLabel") as? SKLabelNode, leaderboardLabel = leaderboardSprite.childNodeWithName("leaderboardLabel") as? SKLabelNode {
             self.playAgainLabel = playAgainLabel
             self.backToMainLabel = backToMainLabel
+            self.leaderboardLabel = leaderboardLabel
         }
         for card in cards {
             self.addChild(card)
@@ -109,6 +115,10 @@ class OnePlayerGameScene: SKScene {
                         self.view?.presentScene(scene)
                     }
                 }
+            } else if node == leaderboardLabel || node == leaderboardLabel {
+                leaderboardLabel.fontColor = .lightGrayColor()
+                showLeader()
+                leaderboardLabel.fontColor = UIColor(red: 223/255.0, green: 86/255.0, blue: 94/255.0, alpha: 1.0)
             }
         }
     }
@@ -124,14 +134,16 @@ class OnePlayerGameScene: SKScene {
     
     func testEndGame() -> Bool {
         if game.difficulty == .Regular {
-            if self.children.count < 10 {
+            if self.children.count < 11 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false
                 playAgainSprite.hidden = false
+                leaderboardSprite.hidden = false
                 if let highscore = Records.regularHighscore, fastestTimeInt = Records.regularFastestTimeInt {
                     if game.score > highscore {
                         Records.setRegularHighscore(game.score)
+                        saveRegularHighscore(game.score)
                     }
                     if timer.totalSeconds < fastestTimeInt {
                         Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
@@ -139,6 +151,7 @@ class OnePlayerGameScene: SKScene {
                 } else {
                     Records.setRegularHighscore(game.score)
                     Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                    saveRegularHighscore(game.score)
                 }
                 highscoreLabel.text = "Regular Highscore: \(Records.regularHighscore!)"
                 fastestTimeLabel.text = "Regular Fastest Time: \(Records.regularFastestTimeString!)"
@@ -147,14 +160,16 @@ class OnePlayerGameScene: SKScene {
                 return true
             } else { return false }
         } else {
-            if self.children.count < 10 {
+            if self.children.count < 11 {
                 game.finished = true
                 timer.stop()
                 finishedLabel.hidden = false
                 playAgainSprite.hidden = false
+                leaderboardSprite.hidden = false
                 if let highscore = Records.hardHighscore, fastestTimeInt = Records.hardFastestTimeInt {
                     if game.score > highscore {
                         Records.setHardHighscore(game.score)
+                        saveHardHighscore(game.score)
                     }
                     if timer.totalSeconds < fastestTimeInt {
                         Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
@@ -162,6 +177,7 @@ class OnePlayerGameScene: SKScene {
                 } else {
                     Records.setHardHighscore(game.score)
                     Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
+                    saveHardHighscore(game.score)
                 }
                 highscoreLabel.text = "Hard Highscore: \(Records.hardHighscore!)"
                 fastestTimeLabel.text = "Hard Fastest Time: \(Records.hardFastestTimeString!)"
@@ -170,5 +186,42 @@ class OnePlayerGameScene: SKScene {
                 return true
             } else { return false }
         }
+    }
+    
+    func saveRegularHighscore(score: Int) {
+        if GKLocalPlayer.localPlayer().authenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "iMemori_Regular_Leaderboard")
+            scoreReporter.value = Int64(score)
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: {(error : NSError?) -> Void in
+                if error != nil {
+                    print("error")
+                }
+            })
+        }
+    }
+    
+    func saveHardHighscore(score: Int) {
+        if GKLocalPlayer.localPlayer().authenticated {
+            let scoreReporter = GKScore(leaderboardIdentifier: "iMemori_Hard_Leaderboard")
+            scoreReporter.value = Int64(score)
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: {(error : NSError?) -> Void in
+                if error != nil {
+                    print("error")
+                }
+            })
+        }
+    }
+    
+    func showLeader() {
+        let vc = self.view?.window?.rootViewController
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        vc?.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }

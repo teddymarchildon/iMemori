@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameKit
 
 class TwoPlayerGameScene: SKScene {
     

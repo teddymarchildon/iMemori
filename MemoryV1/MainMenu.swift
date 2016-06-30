@@ -6,9 +6,11 @@
 //  Copyright © 2016 Teddy Marchildon. All rights reserved.
 //
 
+import UIKit
 import SpriteKit
+import GameKit
 
-class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, GKGameCenterControllerDelegate {
     
     var playerTextField = UITextField(frame: CGRect(x: UIScreen.mainScreen().bounds.size.width * 0.33 + 80, y: UIScreen.mainScreen().bounds.size.width * 0.35 + 180, width: 140, height: 40))
     var difficultyTextField = UITextField(frame: CGRect(x: UIScreen.mainScreen().bounds.size.width * 0.33 + 80, y: UIScreen.mainScreen().bounds.size.width * 0.35 + 250, width: 140, height: 40))
@@ -21,6 +23,8 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
     var recordLabel: SKLabelNode!
     var modeUILabel: UILabel = UILabel()
     var difficultyUILabel: UILabel = UILabel()
+    var leaderboardButtonSprite: SKSpriteNode!
+    var leaderboardLabel: SKLabelNode!
     
     var playerMode: GameModes.PlayerModes {
         if let text = playerTextField.text {
@@ -61,13 +65,15 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
         let difficultyPickerView: UIPickerView = UIPickerView()
         playerPickerView.tag = 1
         difficultyPickerView.tag = 2
-        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let playButtonSprite = self.childNodeWithName("playButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode {
+        if let mainLabel = self.childNodeWithName("mainLabel") as? SKLabelNode, let playButtonSprite = self.childNodeWithName("playButtonSprite") as? SKSpriteNode, let toRecordLabel = self.childNodeWithName("recordsButtonSprite") as? SKSpriteNode, let leaderboardButtonSprite = self.childNodeWithName("leaderboardButtonSprite") as? SKSpriteNode {
             self.mainLabel = mainLabel
             self.toRecordScene = toRecordLabel
             self.playButtonSprite = playButtonSprite
-            if let recordLabel = toRecordScene.childNodeWithName("recordsLabel") as? SKLabelNode, let playButtonLabel = playButtonSprite.childNodeWithName("playLabel") as? SKLabelNode {
+            self.leaderboardButtonSprite = leaderboardButtonSprite
+            if let recordLabel = toRecordScene.childNodeWithName("recordsLabel") as? SKLabelNode, let playButtonLabel = playButtonSprite.childNodeWithName("playLabel") as? SKLabelNode, let leaderboardLabel = leaderboardButtonSprite.childNodeWithName("leaderboardLabel") as? SKLabelNode {
                 self.recordLabel = recordLabel
                 self.playButtonLabel = playButtonLabel
+                self.leaderboardLabel = leaderboardLabel
             }
         }
         
@@ -213,14 +219,34 @@ class MainMenu: SKScene, UITextFieldDelegate, UIPickerViewDelegate, UIPickerView
                 hideLabels()
                 recordLabel.fontColor = .lightGrayColor()
                 self.view?.presentScene(recordScene!, transition: SKTransition.pushWithDirection(.Left, duration: 0.4))
+            } else if node == leaderboardLabel || node == leaderboardButtonSprite {
+                leaderboardLabel.fontColor = .lightGrayColor()
+                if GKLocalPlayer.localPlayer().authenticated {
+                    showLeader()
+                } else {
+                    showLeader()
+                }
+                leaderboardLabel.fontColor = UIColor(red: 0.0, green: 145/255.0, blue: 255/255.0, alpha: 1.0)
             }
         }
     }
+    
     
     func hideLabels() {
         playerTextField.removeFromSuperview()
         difficultyTextField.removeFromSuperview()
         modeUILabel.removeFromSuperview()
         difficultyUILabel.removeFromSuperview()
+    }
+    
+    func showLeader() {
+        let vc = self.view?.window?.rootViewController
+        let gc = GKGameCenterViewController()
+        gc.gameCenterDelegate = self
+        vc?.presentViewController(gc, animated: true, completion: nil)
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
     }
 }
