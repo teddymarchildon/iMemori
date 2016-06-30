@@ -140,10 +140,10 @@ class OnePlayerGameScene: SKScene, GKGameCenterControllerDelegate {
                 finishedLabel.hidden = false
                 playAgainSprite.hidden = false
                 leaderboardSprite.hidden = false
+                saveRegularHighscore(game.score)
                 if let highscore = Records.regularHighscore, fastestTimeInt = Records.regularFastestTimeInt {
                     if game.score > highscore {
                         Records.setRegularHighscore(game.score)
-                        saveRegularHighscore(game.score)
                     }
                     if timer.totalSeconds < fastestTimeInt {
                         Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
@@ -151,7 +151,6 @@ class OnePlayerGameScene: SKScene, GKGameCenterControllerDelegate {
                 } else {
                     Records.setRegularHighscore(game.score)
                     Records.setRegularFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
-                    saveRegularHighscore(game.score)
                 }
                 highscoreLabel.text = "Regular Highscore: \(Records.regularHighscore!)"
                 fastestTimeLabel.text = "Regular Fastest Time: \(Records.regularFastestTimeString!)"
@@ -166,10 +165,10 @@ class OnePlayerGameScene: SKScene, GKGameCenterControllerDelegate {
                 finishedLabel.hidden = false
                 playAgainSprite.hidden = false
                 leaderboardSprite.hidden = false
+                saveHardHighscore(game.score)
                 if let highscore = Records.hardHighscore, fastestTimeInt = Records.hardFastestTimeInt {
                     if game.score > highscore {
                         Records.setHardHighscore(game.score)
-                        saveHardHighscore(game.score)
                     }
                     if timer.totalSeconds < fastestTimeInt {
                         Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
@@ -177,7 +176,6 @@ class OnePlayerGameScene: SKScene, GKGameCenterControllerDelegate {
                 } else {
                     Records.setHardHighscore(game.score)
                     Records.setHardFastestTime(timer.totalSeconds, newTimeString: timer.finalMinutes + ":" + timer.finalSeconds)
-                    saveHardHighscore(game.score)
                 }
                 highscoreLabel.text = "Hard Highscore: \(Records.hardHighscore!)"
                 fastestTimeLabel.text = "Hard Fastest Time: \(Records.hardFastestTimeString!)"
