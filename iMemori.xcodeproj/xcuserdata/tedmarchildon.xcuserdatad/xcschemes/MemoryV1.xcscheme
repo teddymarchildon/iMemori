@@ -17,7 +17,7 @@
                BlueprintIdentifier = "B1F2C46F1D1072FB00D1F971"
                BuildableName = "MemoryV1.app"
                BlueprintName = "MemoryV1"
-               ReferencedContainer = "container:Fremori.xcodeproj">
+               ReferencedContainer = "container:iMemori.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "B1F2C46F1D1072FB00D1F971"
             BuildableName = "MemoryV1.app"
             BlueprintName = "MemoryV1"
-            ReferencedContainer = "container:Fremori.xcodeproj">
+            ReferencedContainer = "container:iMemori.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,7 +58,7 @@
             BlueprintIdentifier = "B1F2C46F1D1072FB00D1F971"
             BuildableName = "MemoryV1.app"
             BlueprintName = "MemoryV1"
-            ReferencedContainer = "container:Fremori.xcodeproj">
+            ReferencedContainer = "container:iMemori.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -77,7 +77,7 @@
             BlueprintIdentifier = "B1F2C46F1D1072FB00D1F971"
             BuildableName = "MemoryV1.app"
             BlueprintName = "MemoryV1"
-            ReferencedContainer = "container:Fremori.xcodeproj">
+            ReferencedContainer = "container:iMemori.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

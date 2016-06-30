@@ -164,7 +164,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B1F2C46B1D1072FB00D1F971 /* Build configuration list for PBXProject "Fremori" */;
+			buildConfigurationList = B1F2C46B1D1072FB00D1F971 /* Build configuration list for PBXProject "iMemori" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -358,7 +358,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B1F2C46B1D1072FB00D1F971 /* Build configuration list for PBXProject "Fremori" */ = {
+		B1F2C46B1D1072FB00D1F971 /* Build configuration list for PBXProject "iMemori" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B1F2C4841D1072FB00D1F971 /* Debug */,
